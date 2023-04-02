@@ -18,15 +18,16 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm": "npx typeorm -d dist/db/data-source.js",
-    "typeorm:gen": "yarn typeorm -- migration:generate",
-    "typeorm:run": "yarn typeorm -- migration:run",
-    "typeorm:revert": "yarn typeorm -- migration:revert"
+    "typeorm": "yarn build && npx typeorm -d dist/db/data-source.js",
+    "migrate:gen": "yarn typeorm -- migration:generate",
+    "migrate:run": "yarn typeorm -- migration:run",
+    "migrate:revert": "yarn typeorm -- migration:revert"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/serve-static": "^3.0.1",
     "@nestjs/typeorm": "^9.0.1",
