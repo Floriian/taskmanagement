@@ -10,8 +10,5 @@ export class User {
 
   @Column()
   password: string;
-
-  @Column()
-  sexdrugsalcohol: string;
 }
 export type UserRepository = Repository<User>;
