@@ -5,6 +5,8 @@ import { join } from 'path';
 import { dataSourceOptions } from '../db/data-source';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { ConfigModule } from '@nestjs/config';
+import { TeamModule } from './team/team.module';
 
 @Module({
   imports: [
@@ -14,6 +16,10 @@ import { UserModule } from './user/user.module';
     TypeOrmModule.forRoot(dataSourceOptions),
     AuthModule,
     UserModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TeamModule,
   ],
 })
 export class AppModule {}
