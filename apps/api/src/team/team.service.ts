@@ -9,11 +9,14 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Team, TeamRepository } from './entity/team.entity';
 import { CreateTeamDto } from './dto/createam.dto';
-import { User } from '../user/entity/user.entity';
+import { User, UserRepository } from '../user/entity/user.entity';
 
 @Injectable()
 export class TeamService {
-  constructor(@InjectRepository(Team) private teamRepository: TeamRepository) {}
+  constructor(
+    @InjectRepository(Team) private teamRepository: TeamRepository,
+    @InjectRepository(User) private userRepository: UserRepository,
+  ) {}
 
   async createTeam(dto: CreateTeamDto, user: User) {
     const isInTeam = await this.isInTeam(user);
@@ -78,17 +81,23 @@ export class TeamService {
     };
   }
 
-  async joinTeam(user: User, teamInviteCode: string) {
+  async joinTeam(
+    user: User,
+    teamInviteCode: string,
+  ): Promise<{ success: boolean }> {
+    const inTeam = await this.isInTeam(user);
+    if (inTeam) throw new UnauthorizedException();
+
     const team = await this.teamRepository.findOneBy({ teamInviteCode });
     if (!team) throw new BadRequestException('Invalid code.');
 
-    team.users.push(user);
-
-    try {
-      await this.teamRepository.save(team);
-    } catch (e) {
-      console.log(e);
-    }
+    const update = await this.userRepository.update(user.id, {
+      team: {
+        id: team.id,
+      },
+    });
+    if (!update) return { success: false };
+    return { success: true };
   }
 
   async getUserTeam(user: User) {
@@ -115,6 +124,18 @@ export class TeamService {
     });
     if (team) return true;
     if (!team) return false;
+  }
+
+  async leaveTeam(user: User): Promise<{ success: boolean }> {
+    const inTeam = await this.isInTeam(user);
+    if (!inTeam) throw new UnauthorizedException();
+
+    const update = await this.userRepository.update(user.id, {
+      team: null,
+    });
+
+    if (!update) return { success: false };
+    return { success: true };
   }
 
   generateTeamInviteCode(): string {

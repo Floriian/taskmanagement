@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  HttpCode,
+  Param,
+  Post,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { TeamService } from './team.service';
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { CreateTeamDto } from './dto/createam.dto';
@@ -31,10 +41,17 @@ export class TeamController {
   }
 
   @Post('join/:teamInviteCode')
+  @HttpCode(HttpStatus.ACCEPTED)
   joinTeam(
     @GetUser() user: User,
     @Param('teamInviteCode') teamInviteCode: string,
   ) {
     return this.teamService.joinTeam(user, teamInviteCode);
+  }
+
+  @Delete('leave')
+  @HttpCode(HttpStatus.ACCEPTED)
+  leaveTeam(@GetUser() user: User) {
+    return this.teamService.leaveTeam(user);
   }
 }
