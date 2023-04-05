@@ -12,7 +12,7 @@ async function bootstrap() {
     }),
   );
 
-  app.useGlobalFilters(new EnoentExceptionFilter());
+  // app.useGlobalFilters(new EnoentExceptionFilter());
 
   app.setGlobalPrefix('/api');
   await app.listen(3000);
