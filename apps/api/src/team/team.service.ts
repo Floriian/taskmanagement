@@ -21,7 +21,6 @@ export class TeamService {
       throw new UnauthorizedException('You are already a team member.');
 
     const teamCode = await this.generateTeamInviteCode();
-    console.log(teamCode);
 
     const team = await this.teamRepository.create({
       teamInviteCode: teamCode,
