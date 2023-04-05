@@ -71,18 +71,15 @@ export function Signup() {
               <AlertTitle>
                 {error.statusCode === 404 ? 'Not Found' : 'Error'}
               </AlertTitle>
-              {Object.values(error.message).map((msg) => (
-                <Typography
-                  key={msg}
-                  sx={{
-                    ':first-letter': {
-                      textTransform: 'uppercase',
-                    },
-                  }}
-                >
-                  {msg}
-                </Typography>
-              ))}
+              <Typography
+                sx={{
+                  ':first-letter': {
+                    textTransform: 'uppercase',
+                  },
+                }}
+              >
+                {error.message}
+              </Typography>
             </Alert>
           ) : null}
           <FormGroup>
@@ -110,7 +107,7 @@ export function Signup() {
               fullWidth
               label="Password"
               variant="outlined"
-              type="text"
+              type="password"
               sx={{ marginBottom: '1rem' }}
               error={errors?.password ? true : false}
               helperText={errors.password?.message}

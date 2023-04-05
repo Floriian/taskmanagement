@@ -73,7 +73,15 @@ export function SignIn() {
               <AlertTitle>
                 {error.statusCode === 404 ? 'Not Found' : 'Error'}
               </AlertTitle>
-              {error.message}
+              <Typography
+                sx={{
+                  ':first-letter': {
+                    textTransform: 'uppercase',
+                  },
+                }}
+              >
+                {error.message}
+              </Typography>
             </Alert>
           ) : null}
           <FormGroup>
