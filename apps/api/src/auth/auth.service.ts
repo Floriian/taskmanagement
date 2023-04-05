@@ -3,6 +3,7 @@ import {
   BadRequestException,
   ConflictException,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User, UserRepository } from '../user/entity/user.entity';
@@ -53,8 +54,13 @@ export class AuthService {
     const user = await this.userRepository.findOne({
       where: [{ username: dto.credential }, { email: dto.credential }],
     });
-    delete user.password;
-    if (!user) throw new BadRequestException("User doesn't exists.");
+
+    if (!user) throw new NotFoundException("User doesn't exists.");
+
+    const isPasswordMatches = await argon2.verify(user.password, dto.password);
+    if (!isPasswordMatches)
+      throw new BadRequestException("Password's doesnt matches.");
+
     return this.signToken(user.id, user.username, user.email);
   }
 
