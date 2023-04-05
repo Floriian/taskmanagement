@@ -1,5 +1,6 @@
 {
     "exportall.config.folderListener": [
-        "/apps/client/src/types"
+        "/apps/client/src/types",
+        "/apps/client/src/components/Link"
     ]
 }

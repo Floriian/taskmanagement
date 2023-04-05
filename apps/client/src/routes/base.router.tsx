@@ -1,11 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { Route } from '../types';
+import { authRouter } from './auth.router';
 
-const testRouter: Route[] = [
-  {
-    title: 'Főoldal',
-    path: '/',
-    element: <h1>hello world</h1>,
-  },
-];
-export const router = createBrowserRouter(testRouter);
+const routes = [...authRouter];
+export const router = createBrowserRouter(routes);
