@@ -5,6 +5,6 @@ export const GetUserTeam = createParamDecorator(
 
     if (data) return req.user['team'][data];
 
-    return req.user;
+    return req.user['team'];
   },
 );
