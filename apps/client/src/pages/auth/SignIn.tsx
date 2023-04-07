@@ -36,7 +36,7 @@ export function SignIn() {
       const res = await authService.signIn(data);
       if (res.data.access_token) {
         localStorage.setItem('access_token', res.data.access_token);
-        if (localStorage.getItem('access_token')) navigate('/');
+        navigate('/');
       }
     } catch (e) {
       if (e instanceof AxiosError) {

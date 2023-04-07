@@ -4,14 +4,9 @@ import { authInstance } from '../../services/auth.instance';
 import { AxiosError } from 'axios';
 
 export default function Layout() {
-  const [valid, setValid] = useState<boolean>();
+  // const [valid, setValid] = useState<boolean>();
   const token = localStorage.getItem('access_token');
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!token) {
-      navigate('/auth/sign-in');
-    }
-  }, [token]);
+  // const navigate = useNavigate();
 
   // useEffect(() => {
   //   const fetch = async () => {
@@ -29,5 +24,5 @@ export default function Layout() {
   //   fetch();
   // });
 
-  return <>{valid ? <Outlet /> : <Navigate to="/auth/sign-in" />}</>;
+  return <>{token ? <Outlet /> : <Navigate to="/auth/sign-in" />}</>;
 }
