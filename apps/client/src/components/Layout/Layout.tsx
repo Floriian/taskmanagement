@@ -2,6 +2,7 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import { Navigate, Outlet, redirect, useNavigate } from 'react-router-dom';
 import { authInstance } from '../../services/auth.instance';
 import { AxiosError } from 'axios';
+import Menu from './Menu';
 
 export default function Layout() {
   // const [valid, setValid] = useState<boolean>();
@@ -24,5 +25,16 @@ export default function Layout() {
   //   fetch();
   // });
 
-  return <>{token ? <Outlet /> : <Navigate to="/auth/sign-in" />}</>;
+  return (
+    <>
+      {token ? (
+        <>
+          <Menu />
+          <Outlet />
+        </>
+      ) : (
+        <Navigate to="/auth/sign-in" />
+      )}
+    </>
+  );
 }
