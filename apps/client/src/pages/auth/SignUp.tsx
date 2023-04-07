@@ -15,9 +15,12 @@ import { SignUpSchema, TNestError, TSignUp } from '../../types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
 import { authService } from '../../services/auth.service';
+import { useNavigate } from 'react-router-dom';
 
 export function Signup() {
   const [error, setError] = useState<TNestError>();
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -30,8 +33,10 @@ export function Signup() {
   const onFormSubmit: SubmitHandler<TSignUp> = async (data) => {
     try {
       const res = await authService.signUp(data);
-      if (res.data.access_token)
+      if (res.data.access_token) {
         localStorage.setItem('access_token', res.data.access_token);
+        navigate('/');
+      }
     } catch (e) {
       if (e instanceof AxiosError) {
         setError(e.response?.data);

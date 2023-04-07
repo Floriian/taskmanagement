@@ -16,9 +16,12 @@ import { SignInSchema, TSignIn } from '../../types/auth.type';
 import { TNestError } from '../../types';
 import { AxiosError } from 'axios';
 import { authService } from '../../services/auth.service';
+import { useNavigate } from 'react-router-dom';
 
 export function SignIn() {
   const [error, setError] = useState<TNestError>();
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -31,8 +34,10 @@ export function SignIn() {
   const onFormSubmit: SubmitHandler<TSignIn> = async (data) => {
     try {
       const res = await authService.signIn(data);
-      if (res.data.access_token)
+      if (res.data.access_token) {
         localStorage.setItem('access_token', res.data.access_token);
+        if (localStorage.getItem('access_token')) navigate('/');
+      }
     } catch (e) {
       if (e instanceof AxiosError) {
         setError(e.response?.data);
