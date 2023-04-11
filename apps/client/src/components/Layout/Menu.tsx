@@ -11,7 +11,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 export default function Menu() {
   return (
-    <AppBar position="sticky">
+    <AppBar
+      position="sticky"
+      sx={{
+        marginBottom: '1rem',
+      }}
+    >
       <Toolbar>
         <Box
           sx={{
