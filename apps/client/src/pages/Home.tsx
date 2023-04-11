@@ -32,7 +32,7 @@ export default function Home() {
     }
   }, [user?.team]);
   return (
-    <div>
+    <>
       {user?.team === null ? (
         <Modal open={open} onClose={handleClose}>
           <Box
@@ -70,6 +70,21 @@ export default function Home() {
           </Box>
         </Modal>
       ) : null}
-    </div>
+      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Totam iure
+      dolore vel nam voluptates atque eum explicabo laborum commodi asperiores,
+      expedita ipsa corrupti, eius quo magnam aspernatur magni repellat
+      eaque!Lorem ipsum dolor sit amet consectetur, adipisicing elit. Totam iure
+      dolore vel nam voluptates atque eum explicabo laborum commodi asperiores,
+      expedita ipsa corrupti, eius quo magnam aspernatur magni repellat
+      eaque!Lorem ipsum dolor sit amet consectetur, adipisicing elit. Totam iure
+      dolore vel nam voluptates atque eum explicabo laborum commodi asperiores,
+      expedita ipsa corrupti, eius quo magnam aspernatur magni repellat
+      eaque!Lorem ipsum dolor sit amet consectetur, adipisicing elit. Totam iure
+      dolore vel nam voluptates atque eum explicabo laborum commodi asperiores,
+      expedita ipsa corrupti, eius quo magnam aspernatur magni repellat
+      eaque!Lorem ipsum dolor sit amet consectetur, adipisicing elit. Totam iure
+      dolore vel nam voluptates atque eum explicabo laborum commodi asperiores,
+      expedita ipsa corrupti, eius quo magnam aspernatur magni repellat eaque!
+    </>
   );
 }

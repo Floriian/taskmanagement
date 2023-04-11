@@ -11,17 +11,16 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 export default function Menu() {
   return (
-    // <Box sx={{ flexGrow: 1 }}>
-    <AppBar position="fixed">
+    <AppBar position="sticky">
       <Toolbar>
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'space-between',
+            justifyContent: 'end',
             width: '100vw',
           }}
         >
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -29,7 +28,7 @@ export default function Menu() {
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Box sx={{ display: 'flex' }}>
             <Button color="inherit">Profile</Button>
             <Button color="inherit">Logout</Button>
@@ -37,6 +36,5 @@ export default function Menu() {
         </Box>
       </Toolbar>
     </AppBar>
-    // </Box>
   );
 }
