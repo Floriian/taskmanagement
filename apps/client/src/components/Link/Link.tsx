@@ -5,11 +5,12 @@ import { Link as MaterialLink } from '@mui/material';
 type Props = {
   children: React.ReactNode;
   href: To;
+  onClick?: () => void;
 };
 
-export function Link({ children, href }: Props) {
+export function Link({ children, href, onClick }: Props) {
   return (
-    <MaterialLink component="div">
+    <MaterialLink component="div" onClick={onClick}>
       <RouterLink to={href}>{children}</RouterLink>
     </MaterialLink>
   );
