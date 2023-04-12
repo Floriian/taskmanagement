@@ -11,6 +11,8 @@ export function TaskInfoCard({ title, data }: Props) {
       sx={{
         minWidth: 178,
         maxWidth: 250,
+        ml: 2,
+        mr: 2,
       }}
     >
       <CardContent>
