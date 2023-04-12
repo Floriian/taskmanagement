@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { userService } from '../services/user.service';
-import { TNestError, TUser } from '../types';
+import { TNestError, TTeam, TUser } from '../types';
 import {
   Box,
   Modal,
@@ -11,11 +11,13 @@ import {
   Container,
   Skeleton,
 } from '@mui/material';
-import { Link, TaskInfoCard } from '../components';
+import { Link, TaskInfoCard, TeamStatistics } from '../components';
 import { useNavigate } from 'react-router-dom';
+import { teamService } from '../services/team.service';
 
 export default function Home() {
   const [user, setUser] = useState<TUser>();
+  const [team, setTeam] = useState<Omit<TTeam, 'users'>>();
   const [error, setError] = useState<TNestError>();
   const [open, setOpen] = useState<boolean>(false);
 
@@ -26,11 +28,13 @@ export default function Home() {
   };
 
   useEffect(() => {
-    userService
-      .getUser()
-      .then((res) => setUser(res.data))
-      .catch((e) => setError(e));
+    userService.getUser().then(setUser).catch(setError);
   }, []);
+
+  useEffect(() => {
+    teamService.getUserTeam().then(setTeam).catch(setError);
+  }, []);
+
   useEffect(() => {
     if (user?.team) {
       setOpen(false);
@@ -99,12 +103,14 @@ export default function Home() {
     <>
       {user?.team === null ? warningTeamModal : null}
       <Container>
-        {/* <Typography textAlign="center" variant="h6">
-          Welcome {user?.username}
-        </Typography> */}
         {!open && user?.team === null ? warningForNoTeamNoModal : null}
         <Box display="flex" justifyContent="center">
-          {user?.team ? <TaskInfoCard title="asd" data={[]} /> : null}
+          {user?.team ? (
+            <>
+              <TaskInfoCard title="asd" data={[]} />
+              <TeamStatistics team={team!} />
+            </>
+          ) : null}
         </Box>
       </Container>
     </>
