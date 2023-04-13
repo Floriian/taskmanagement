@@ -17,6 +17,8 @@ import { TNestError } from '../../types';
 import { AxiosError } from 'axios';
 import { authService } from '../../services/auth.service';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { authSlice, setToken, setUser } from '../../features/auth/authSlice';
 
 export function SignIn() {
   const [error, setError] = useState<TNestError>();
@@ -31,13 +33,16 @@ export function SignIn() {
     resolver: zodResolver(SignInSchema),
   });
 
+  const user = useAppSelector((state) => state.auth.userToken);
+  const dispatch = useAppDispatch();
+
   const onFormSubmit: SubmitHandler<TSignIn> = async (data) => {
     try {
       const res = await authService.signIn(data);
       if (res.data.access_token) {
         localStorage.setItem('access_token', res.data.access_token);
+        dispatch(setToken(res.data.access_token));
         navigate('/', { replace: true });
-        window.location.reload();
       }
     } catch (e) {
       if (e instanceof AxiosError) {
