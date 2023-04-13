@@ -14,9 +14,10 @@ import {
 import { Link, TaskInfoCard, TeamStatistics } from '../components';
 import { useNavigate } from 'react-router-dom';
 import { teamService } from '../services/team.service';
+import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
+import { setUser } from '../features/user/userSlice';
 
 export default function Home() {
-  const [user, setUser] = useState<TUser>();
   const [team, setTeam] = useState<Omit<TTeam, 'users'>>();
   const [error, setError] = useState<TNestError>();
   const [open, setOpen] = useState<boolean>(false);
@@ -27,21 +28,28 @@ export default function Home() {
     setOpen(false);
   };
 
+  const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    userService.getUser().then(setUser).catch(setError);
+    userService
+      .getUser()
+      .then((res) => {
+        dispatch(setUser(res));
+      })
+      .catch(setError);
   }, []);
 
   useEffect(() => {
     teamService.getUserTeam().then(setTeam).catch(setError);
   }, []);
 
-  useEffect(() => {
-    if (user?.team) {
-      setOpen(false);
-    } else {
-      setOpen(true);
-    }
-  }, [user?.team]);
+  // useEffect(() => {
+  //   if (user?.team) {
+  //     setOpen(false);
+  //   } else {
+  //     setOpen(true);
+  //   }
+  // }, [user?.team]);
 
   const handleClick = () => {
     // setOpen(false);
@@ -101,16 +109,16 @@ export default function Home() {
 
   return (
     <>
-      {user?.team === null ? warningTeamModal : null}
+      {/* {user?.team === null ? warningTeamModal : null} */}
       <Container>
-        {!open && user?.team === null ? warningForNoTeamNoModal : null}
+        {/* {!open && user?.team === null ? warningForNoTeamNoModal : null} */}
         <Box display="flex" justifyContent="center">
-          {user?.team ? (
-            <>
-              <TaskInfoCard title="asd" data={[]} />
-              <TeamStatistics team={team!} />
-            </>
-          ) : null}
+          {/* {user?.team ? ( */}
+          <>
+            <TaskInfoCard title="asd" data={[]} />
+            {/* <TeamStatistics team={team!} /> */}
+          </>
+          {/* ) : null} */}
         </Box>
       </Container>
     </>
