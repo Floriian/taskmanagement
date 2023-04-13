@@ -33,7 +33,8 @@ export function SignIn() {
     resolver: zodResolver(SignInSchema),
   });
 
-  const user = useAppSelector((state) => state.auth.userToken);
+  //TODO if has access token, and it is valid, redirect to home page.
+  // const user = useAppSelector((state) => state.auth.userToken);
   const dispatch = useAppDispatch();
 
   const onFormSubmit: SubmitHandler<TSignIn> = async (data) => {
