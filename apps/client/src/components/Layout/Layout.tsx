@@ -4,27 +4,19 @@ import { authInstance } from '../../services/auth.instance';
 import { AxiosError } from 'axios';
 import Menu from './Menu';
 import Sidebar from './Sidebar';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { setToken } from '../../features/auth/authSlice';
 
 export default function Layout() {
-  //const [valid, setValid] = useState<boolean>();
   const token = localStorage.getItem('access_token');
-  // const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const fetch = async () => {
-  //     try {
-  //       const data = await authInstance('/api/user');
-  //     } catch (e) {
-  //       if (e instanceof AxiosError) {
-  //         if (e.response?.data.statusCode! === 401) {
-  //           setValid(false);
-  //         }
-  //       }
-  //       console.log(e);
-  //     }
-  //   };
-  //   fetch();
-  // });
+  const auth = useAppSelector((state) => state.auth.userToken);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (token) {
+      dispatch(setToken(token));
+    }
+  }, [token]);
 
   return (
     <>
