@@ -40,6 +40,7 @@ export default function CreateTeam() {
         }
         if (e.response?.status === 409) {
           //team name taken
+          //TODO
           setError(e.response?.data);
         }
       }
