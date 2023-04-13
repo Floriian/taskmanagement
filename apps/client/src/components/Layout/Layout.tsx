@@ -16,7 +16,7 @@ export default function Layout() {
     if (token) {
       dispatch(setToken(token));
     }
-  }, [token]);
+  }, [token, auth]);
 
   return (
     <>
