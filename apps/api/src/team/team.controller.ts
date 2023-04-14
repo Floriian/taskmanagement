@@ -14,6 +14,7 @@ import { JwtGuard } from '../auth/guards/jwt.guard';
 import { CreateTeamDto } from './dto/createam.dto';
 import { User } from '../user/entity/user.entity';
 import { GetUser } from '../decorators/getuser.decorator';
+import { TeamGuard } from './guards/TeamGuard';
 
 @Controller('team')
 @UseGuards(JwtGuard)
@@ -21,6 +22,7 @@ export class TeamController {
   constructor(private readonly teamService: TeamService) {}
 
   @Get()
+  @UseGuards(TeamGuard)
   getUserTeam(@GetUser() user: User) {
     return this.teamService.getUserTeam(user);
   }

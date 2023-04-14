@@ -109,7 +109,7 @@ export class TeamService {
       },
     });
 
-    if (!team) throw new NotFoundException();
+    // if (!team) throw new NotFoundException();
 
     return team;
   }
