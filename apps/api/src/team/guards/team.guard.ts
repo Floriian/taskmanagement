@@ -4,6 +4,9 @@ import { Observable } from 'rxjs';
 import { User, UserRepository } from '../../user/entity/user.entity';
 
 @Injectable()
+/**
+ * Check if user in team.
+ */
 export class TeamGuard implements CanActivate {
   constructor(
     @InjectRepository(User) private readonly userRepository: UserRepository,

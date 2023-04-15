@@ -14,7 +14,7 @@ import { JwtGuard } from '../auth/guards/jwt.guard';
 import { CreateTeamDto } from './dto/createam.dto';
 import { User } from '../user/entity/user.entity';
 import { GetUser } from '../decorators/getuser.decorator';
-import { TeamGuard } from './guards/TeamGuard';
+import { TeamGuard } from './guards/team.guard';
 
 @Controller('team')
 @UseGuards(JwtGuard)
