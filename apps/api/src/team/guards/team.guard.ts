@@ -1,4 +1,9 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Observable } from 'rxjs';
 import { User, UserRepository } from '../../user/entity/user.entity';
@@ -24,11 +29,9 @@ export class TeamGuard implements CanActivate {
     });
 
     if (user.team) {
-      result = true;
+      return true;
     } else {
-      result = false;
+      throw new UnauthorizedException('You are not a team member.');
     }
-
-    return result;
   }
 }
