@@ -6,15 +6,17 @@ import { TUser } from '../../types';
 const initialState: UserFeature = {
   email: '',
   username: '',
+  inTeam: false,
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<Omit<TUser, 'team'>>) => {
+    setUser: (state, action: PayloadAction<UserFeature>) => {
       (state.email = action.payload.email),
         (state.username = action.payload.username);
+      state.inTeam = action.payload.inTeam;
     },
   },
 });
