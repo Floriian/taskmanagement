@@ -14,11 +14,16 @@ import { CreateTeamSchema, TCreateTeam, TNestError } from '../../types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { teamService } from '../../services/team.service';
 import { AxiosError } from 'axios';
+import { useAppSelector } from '../../hooks/redux-hooks';
+import { Navigate } from 'react-router-dom';
 
 export default function CreateTeam() {
   const [error, setError] = useState<TNestError>();
   const [disabled, setDisabled] = useState<boolean>(false);
   const [success, setSucces] = useState<boolean>(false);
+
+  const user = useAppSelector((state) => state.user);
+
   const {
     register,
     handleSubmit,
@@ -78,6 +83,10 @@ export default function CreateTeam() {
       </Box>
     </Modal>
   );
+
+  if (user.inTeam) {
+    return <Navigate to="/team" />;
+  }
 
   return (
     <Container
