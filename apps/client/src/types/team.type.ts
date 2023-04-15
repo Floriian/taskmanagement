@@ -1,3 +1,4 @@
+import { Task } from './task.type';
 import { TUser } from './user.type';
 import { z } from 'zod';
 
@@ -11,4 +12,5 @@ export type TTeam = {
   teamName: string;
   teamInviteCode: string;
   users: TUser[];
+  tasks: Task[];
 };
