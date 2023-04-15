@@ -4,11 +4,7 @@ import type { TUser } from '../../types';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: AuthFeature = {
-  error: null,
-  loading: false,
-  userInfo: undefined,
   userToken: '',
-  success: false,
 };
 
 export const authSlice = createSlice({
