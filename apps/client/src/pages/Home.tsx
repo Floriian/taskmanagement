@@ -132,7 +132,9 @@ export default function Home() {
       {!user.inTeam ? joinTeamModal : null}
       <Container>
         {!open && !user.inTeam ? createTeamInfo : null}
-        <Box display="flex" justifyContent="center"></Box>
+        <Box display="flex" justifyContent="center">
+          <TeamStatistics team={team} />
+        </Box>
       </Container>
     </>
   );
