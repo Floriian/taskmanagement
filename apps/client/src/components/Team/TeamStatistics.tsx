@@ -28,14 +28,23 @@ export function TeamStatistics({ team }: Props) {
             component="span"
             sx={{
               fontWeight: 'bold',
-              '&:first-letter': {
-                textTransform: 'revert',
-              },
             }}
           >
             {team.teamName}
           </Typography>
           .
+        </Typography>
+        <Typography>
+          Team invite code is
+          <Typography
+            variant="body1"
+            component="span"
+            sx={{
+              fontWeight: 'bold',
+            }}
+          >
+            {team.teamInviteCode}
+          </Typography>
         </Typography>
       </CardContent>
     </Card>
