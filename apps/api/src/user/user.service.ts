@@ -17,8 +17,13 @@ export class UserService {
     });
 
     delete findedUser.password;
+    const inTeam = findedUser.team !== null;
+    delete findedUser.team;
 
-    return findedUser;
+    return {
+      ...findedUser,
+      inTeam,
+    };
   }
 
   async updateUser(user: User, dto: UpdateUserDto) {
