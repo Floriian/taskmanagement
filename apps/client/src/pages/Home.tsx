@@ -16,9 +16,10 @@ import { useNavigate } from 'react-router-dom';
 import { teamService } from '../services/team.service';
 import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
 import { setUser } from '../features/user/userSlice';
+import { setTeam } from '../features/team/teamSlice';
+import { AxiosError } from 'axios';
 
 export default function Home() {
-  const [team, setTeam] = useState<Omit<TTeam, 'users'>>();
   const [error, setError] = useState<TNestError>();
   const [open, setOpen] = useState<boolean>(false);
 
@@ -29,6 +30,7 @@ export default function Home() {
   };
 
   const user = useAppSelector((state) => state.user);
+  const team = useAppSelector((state) => state.team);
   const dispatch = useAppDispatch();
   useEffect(() => {
     userService
@@ -40,23 +42,41 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    teamService.getUserTeam().then(setTeam).catch(setError);
+    if (!user.inTeam) {
+      teamService
+        .getUserTeam()
+        .then((res) => {
+          dispatch(
+            setTeam({
+              teamInviteCode: res.teamInviteCode,
+              teamName: res.teamName,
+              id: res.id,
+            }),
+          );
+        })
+        .catch((e) => {
+          if (e instanceof AxiosError) {
+            const res: TNestError = e.response?.data;
+            setOpen(true);
+            setError(res);
+          }
+        });
+    }
   }, []);
-
-  // useEffect(() => {
-  //   if (user?.team) {
-  //     setOpen(false);
-  //   } else {
-  //     setOpen(true);
-  //   }
-  // }, [user?.team]);
+  useEffect(() => {
+    if (team) {
+      setOpen(false);
+    } else {
+      setOpen(true);
+    }
+  }, [team]);
 
   const handleClick = () => {
     // setOpen(false);
     navigate('/team/create');
   };
 
-  const warningForNoTeamNoModal = (
+  const createTeamInfo = (
     <Box>
       <Typography>
         To access the full application, please create a team first.
@@ -67,7 +87,7 @@ export default function Home() {
     </Box>
   );
 
-  const warningTeamModal = (
+  const joinTeamModal = (
     <Modal open={open} onClose={handleClose}>
       <Box
         sx={{
@@ -109,17 +129,10 @@ export default function Home() {
 
   return (
     <>
-      {/* {user?.team === null ? warningTeamModal : null} */}
+      {!user.inTeam ? joinTeamModal : null}
       <Container>
-        {/* {!open && user?.team === null ? warningForNoTeamNoModal : null} */}
-        <Box display="flex" justifyContent="center">
-          {/* {user?.team ? ( */}
-          <>
-            <TaskInfoCard title="asd" data={[]} />
-            {/* <TeamStatistics team={team!} /> */}
-          </>
-          {/* ) : null} */}
-        </Box>
+        {!open && !user.inTeam ? createTeamInfo : null}
+        <Box display="flex" justifyContent="center"></Box>
       </Container>
     </>
   );
