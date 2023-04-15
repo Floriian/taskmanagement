@@ -109,8 +109,6 @@ export class TeamService {
       },
     });
 
-    // if (!team) throw new NotFoundException();
-
     return team;
   }
 
@@ -127,9 +125,6 @@ export class TeamService {
   }
 
   async leaveTeam(user: User): Promise<{ success: boolean }> {
-    const inTeam = await this.isInTeam(user);
-    if (!inTeam) throw new UnauthorizedException();
-
     const update = await this.userRepository.update(user.id, {
       team: null,
     });

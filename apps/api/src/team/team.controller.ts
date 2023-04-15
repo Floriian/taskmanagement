@@ -52,6 +52,7 @@ export class TeamController {
   }
 
   @Delete('leave')
+  @UseGuards(TeamGuard)
   @HttpCode(HttpStatus.ACCEPTED)
   leaveTeam(@GetUser() user: User) {
     return this.teamService.leaveTeam(user);
