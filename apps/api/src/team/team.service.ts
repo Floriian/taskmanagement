@@ -68,6 +68,7 @@ export class TeamService {
         id: user.id,
         team: user.team,
         username: user.username,
+        tasks: user.tasks,
       });
     }
 
