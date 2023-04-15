@@ -35,7 +35,7 @@ export function TeamStatistics({ team }: Props) {
           .
         </Typography>
         <Typography>
-          Team invite code is
+          Team invite code is{' '}
           <Typography
             variant="body1"
             component="span"
