@@ -17,6 +17,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import GroupsIcon from '@mui/icons-material/Groups';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ChatIcon from '@mui/icons-material/Chat';
+import { useAppSelector } from '../../hooks/redux-hooks';
 
 type Props = {
   children: React.ReactNode;
@@ -24,13 +25,18 @@ type Props = {
 const drawerWidth = 240;
 export default function Sidebar({ children }: Props) {
   const theme = useTheme();
+
   // @ts-ignore
   const matches = useMediaQuery(theme.breakpoints.up('md'));
+
+  const ui = useAppSelector((state) => state.ui);
+
   return (
     <Box sx={{ display: 'flex' }}>
       <Menu />
       <Drawer
-        variant="permanent"
+        variant={matches ? 'permanent' : 'temporary'}
+        open={ui.showDrawer}
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -78,7 +84,7 @@ export default function Sidebar({ children }: Props) {
           </List>
         </Box>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={matches ? { flexGrow: 1, p: 3 } : null}>
         <Toolbar />
         {children}
       </Box>
