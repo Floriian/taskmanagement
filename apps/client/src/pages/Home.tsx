@@ -10,6 +10,7 @@ import {
   Button,
   Container,
   Skeleton,
+  useMediaQuery,
 } from '@mui/material';
 import { Link, TaskInfoCard, TeamInfoCard } from '../components';
 import { useNavigate } from 'react-router-dom';
@@ -19,6 +20,7 @@ import { setUser } from '../features/user/userSlice';
 import { addTask, setTeam } from '../features/team/teamSlice';
 import { AxiosError } from 'axios';
 import { taskService } from '../services/task.service';
+import { useTheme } from '@emotion/react';
 
 export default function Home() {
   const [error, setError] = useState<TNestError>();
@@ -33,6 +35,12 @@ export default function Home() {
   const user = useAppSelector((state) => state.user);
   const team = useAppSelector((state) => state.team);
   const dispatch = useAppDispatch();
+
+  const theme = useTheme();
+
+  // @ts-ignore
+  const matches = useMediaQuery(theme.breakpoints.up('md'));
+
   useEffect(() => {
     userService
       .getUser()
@@ -144,7 +152,15 @@ export default function Home() {
       <Container>
         {!open && !user.inTeam ? createTeamInfo : null}
         {user.inTeam ? (
-          <Box display="flex" justifyContent="center">
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100vw',
+              flexDirection: matches ? 'row' : 'column',
+            }}
+          >
             <TeamInfoCard team={team} />
             <TaskInfoCard />
           </Box>
