@@ -7,7 +7,7 @@ type Props = {
   team: Omit<TTeam, 'users'>;
 };
 
-export function TeamStatistics({ team }: Props) {
+export function TeamInfoCard({ team }: Props) {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -26,7 +26,7 @@ export function TeamStatistics({ team }: Props) {
     >
       <CardContent>
         <Typography textAlign="center" variant="subtitle1">
-          Team statistics
+          Team Info
         </Typography>
         <Typography>
           Your team is{' '}
