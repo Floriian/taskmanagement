@@ -8,13 +8,16 @@ import {
   IconButton,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useTheme } from '@emotion/react';
 
 export default function Menu() {
   return (
     <AppBar
-      position="sticky"
+      position="fixed"
       sx={{
         marginBottom: '1rem',
+        width: `calc(100% - ${240})`,
+        zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
       <Toolbar>
@@ -25,7 +28,7 @@ export default function Menu() {
             width: '100vw',
           }}
         >
-          {/* <IconButton
+          <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -33,7 +36,7 @@ export default function Menu() {
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton> */}
+          </IconButton>
           <Box sx={{ display: 'flex' }}>
             <Button color="inherit">Profile</Button>
             <Button color="inherit">Logout</Button>
