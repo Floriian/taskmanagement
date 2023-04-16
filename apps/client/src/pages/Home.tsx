@@ -16,8 +16,9 @@ import { useNavigate } from 'react-router-dom';
 import { teamService } from '../services/team.service';
 import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
 import { setUser } from '../features/user/userSlice';
-import { setTeam } from '../features/team/teamSlice';
+import { addTask, setTeam } from '../features/team/teamSlice';
 import { AxiosError } from 'axios';
+import { taskService } from '../services/task.service';
 
 export default function Home() {
   const [error, setError] = useState<TNestError>();
@@ -51,6 +52,7 @@ export default function Home() {
               teamInviteCode: res.teamInviteCode,
               teamName: res.teamName,
               id: res.id,
+              tasks: [],
             }),
           );
         })
@@ -63,6 +65,15 @@ export default function Home() {
         });
     }
   }, []);
+
+  useEffect(() => {
+    taskService.getTasks().then((res) => {
+      for (let task of res) {
+        dispatch(addTask(task));
+      }
+    });
+  }, []);
+
   useEffect(() => {
     if (team) {
       setOpen(false);
@@ -132,9 +143,11 @@ export default function Home() {
       {!user.inTeam ? joinTeamModal : null}
       <Container>
         {!open && !user.inTeam ? createTeamInfo : null}
-        <Box display="flex" justifyContent="center">
-          <TeamStatistics team={team} />
-        </Box>
+        {user.inTeam ? (
+          <Box display="flex" justifyContent="center">
+            <TeamStatistics team={team} />
+          </Box>
+        ) : null}
       </Container>
     </>
   );

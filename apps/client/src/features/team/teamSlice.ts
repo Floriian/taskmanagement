@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TeamFeature } from './team.feature.type';
 import { unknown } from 'zod';
+import { Task } from '../../types';
 
 const initialState: TeamFeature = {
   teamInviteCode: '',
@@ -8,8 +9,6 @@ const initialState: TeamFeature = {
   id: undefined,
   tasks: [],
 };
-
-const date = new Date();
 
 export const teamSlice = createSlice({
   name: 'team',
@@ -20,16 +19,20 @@ export const teamSlice = createSlice({
         (state.teamInviteCode = action.payload.teamInviteCode),
         (state.teamName = action.payload.teamName);
     },
-    addTask: (state) => {
-      state.tasks.push({
-        completed: true,
-        description: 'description',
-        id: 1,
-        taskTitle: 'task title',
-        createdAt: date,
-        deadline: date,
-        updatedAt: date,
-      });
+    addTask: (state, action: PayloadAction<Task>) => {
+      const task = state.tasks.find((t) => t.id === action.payload.id);
+
+      if (!task) {
+        state.tasks.push({
+          id: action.payload.id,
+          taskTitle: action.payload.taskTitle,
+          completed: action.payload.completed,
+          createdAt: action.payload.createdAt,
+          deadline: action.payload.deadline,
+          description: action.payload.description,
+          updatedAt: action.payload.updatedAt,
+        });
+      }
     },
   },
 });
