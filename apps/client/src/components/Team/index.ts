@@ -1,1 +1,1 @@
-export * from './TeamStatistics';
+export * from './TeamInfoCard';
