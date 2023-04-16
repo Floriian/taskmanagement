@@ -1,10 +1,13 @@
 import React from 'react';
 import { Card, CardContent, Typography, Grid } from '@mui/material';
-type Props = {
-  title: string;
-  data: any[];
-};
-export function TaskInfoCard({ title, data }: Props) {
+import { Task } from '../../types';
+import { useAppSelector } from '../../hooks/redux-hooks';
+export function TaskInfoCard() {
+  const task = useAppSelector((state) => state.team.tasks);
+
+  const completedTasks = task.filter((t) => t.completed === true);
+  const uncompletedTasks = task.filter((t) => t.completed === false);
+
   return (
     <Card
       variant="elevation"
@@ -25,7 +28,7 @@ export function TaskInfoCard({ title, data }: Props) {
           </Grid>
           <Grid item xs={6}>
             <Typography component="span" variant="body1" color="green">
-              300 tasks
+              {completedTasks.length} tasks
             </Typography>
           </Grid>
           <Grid item xs={6}>
@@ -33,7 +36,7 @@ export function TaskInfoCard({ title, data }: Props) {
           </Grid>
           <Grid item xs={6}>
             <Typography component="span" variant="body1" color="red">
-              300 tasks
+              {uncompletedTasks.length} tasks
             </Typography>
           </Grid>
           <Grid item xs={6}>
