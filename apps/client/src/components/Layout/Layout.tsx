@@ -1,9 +1,9 @@
-import React, { ReactNode, useEffect, useState } from 'react';
-import { Navigate, Outlet, redirect, useNavigate } from 'react-router-dom';
-import Menu from './Menu';
+import React, { useEffect } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { setToken } from '../../features/auth/authSlice';
+import { CssBaseline } from '@mui/material';
 
 export default function Layout() {
   const token = localStorage.getItem('access_token');
@@ -20,6 +20,7 @@ export default function Layout() {
 
   return (
     <>
+      <CssBaseline />
       {token ? (
         <>
           <Sidebar>
