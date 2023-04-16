@@ -11,7 +11,7 @@ import {
   Container,
   Skeleton,
 } from '@mui/material';
-import { Link, TaskInfoCard, TeamStatistics } from '../components';
+import { Link, TaskInfoCard, TeamInfoCard } from '../components';
 import { useNavigate } from 'react-router-dom';
 import { teamService } from '../services/team.service';
 import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
@@ -145,7 +145,8 @@ export default function Home() {
         {!open && !user.inTeam ? createTeamInfo : null}
         {user.inTeam ? (
           <Box display="flex" justifyContent="center">
-            <TeamStatistics team={team} />
+            <TeamInfoCard team={team} />
+            <TaskInfoCard />
           </Box>
         ) : null}
       </Container>
