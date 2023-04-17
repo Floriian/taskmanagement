@@ -149,25 +149,23 @@ export default function Home() {
   return (
     <>
       {!user.inTeam ? joinTeamModal : null}
-      <Container>
-        {!open && !user.inTeam ? createTeamInfo : null}
-        {user.inTeam ? (
-          <Container
-            maxWidth={false}
-            disableGutters
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-              flexDirection: matches ? 'row' : 'column',
-            }}
-          >
-            <TeamInfoCard team={team} />
-            <TaskInfoCard />
-          </Container>
-        ) : null}
-      </Container>
+      {!open && !user.inTeam ? createTeamInfo : null}
+      {user.inTeam ? (
+        <Container
+          maxWidth={false}
+          disableGutters
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            flexDirection: matches ? 'row' : 'column',
+          }}
+        >
+          <TeamInfoCard team={team} />
+          <TaskInfoCard />
+        </Container>
+      ) : null}
     </>
   );
 }
