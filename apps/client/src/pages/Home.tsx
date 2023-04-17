@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { teamService } from '../services/team.service';
 import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
 import { setUser } from '../features/user/userSlice';
-import { addTask, setTeam } from '../features/team/teamSlice';
+import { addTask, addTeamMember, setTeam } from '../features/team/teamSlice';
 import { AxiosError } from 'axios';
 import { taskService } from '../services/task.service';
 import { useTheme } from '@emotion/react';
@@ -61,6 +61,7 @@ export default function Home() {
               teamName: res.teamName,
               id: res.id,
               tasks: [],
+              users: [],
             }),
           );
         })
@@ -73,6 +74,14 @@ export default function Home() {
         });
     }
   }, []);
+
+  // useEffect(() => {
+  //   teamService.getTeamMembers(team.id).then((res) =>
+  //     res.users.map((user) => {
+  //       dispatch(addTeamMember(user));
+  //     }),
+  //   );
+  // });
 
   useEffect(() => {
     taskService.getTasks().then((res) => {
