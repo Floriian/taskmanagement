@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { setToken } from '../../features/auth/authSlice';
-import { CssBaseline } from '@mui/material';
+import { Container, CssBaseline } from '@mui/material';
 
 export default function Layout() {
   const token = localStorage.getItem('access_token');

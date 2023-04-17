@@ -18,10 +18,9 @@ export function TeamInfoCard({ team }: Props) {
     <Card
       variant="elevation"
       sx={{
-        minWidth: 178,
+        minWidth: 250,
         maxWidth: 250,
-        ml: 2,
-        mr: 2,
+        m: 2,
       }}
     >
       <CardContent>

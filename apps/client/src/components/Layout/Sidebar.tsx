@@ -47,7 +47,7 @@ export default function Sidebar({ children }: Props) {
         }}
       >
         <Toolbar />
-        <Box sx={{ overflow: 'auto' }}>
+        <Box>
           <List>
             <ListItem disablePadding>
               <ListItemButton>

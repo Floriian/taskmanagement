@@ -152,18 +152,20 @@ export default function Home() {
       <Container>
         {!open && !user.inTeam ? createTeamInfo : null}
         {user.inTeam ? (
-          <Box
+          <Container
+            maxWidth={false}
+            disableGutters
             sx={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              width: '100vw',
+              width: '100%',
               flexDirection: matches ? 'row' : 'column',
             }}
           >
             <TeamInfoCard team={team} />
             <TaskInfoCard />
-          </Box>
+          </Container>
         ) : null}
       </Container>
     </>

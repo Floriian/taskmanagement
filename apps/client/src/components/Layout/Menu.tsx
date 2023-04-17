@@ -39,7 +39,7 @@ export default function Menu() {
             display: 'flex',
             justifyContent: 'end',
             //Todo: button jumping
-            // width: '100%',
+            width: '100%',
           }}
         >
           {!matches ? (
