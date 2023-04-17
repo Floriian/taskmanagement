@@ -1,12 +1,13 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TeamFeature } from './team.feature.type';
-import { Task } from '../../types';
+import { Task, TUser } from '../../types';
 
 const initialState: TeamFeature = {
   teamInviteCode: '',
   teamName: '',
   id: undefined,
   tasks: [],
+  users: [],
 };
 
 export const teamSlice = createSlice({
@@ -33,7 +34,17 @@ export const teamSlice = createSlice({
         });
       }
     },
+    addTeamMember: (state, action: PayloadAction<TUser>) => {
+      const user = state.users.find((u) => u.email === action.payload.email);
+      if (!user) {
+        state.users.push({
+          email: '',
+          username: action.payload.username,
+          inTeam: true,
+        });
+      }
+    },
   },
 });
 
-export const { setTeam, addTask } = teamSlice.actions;
+export const { setTeam, addTask, addTeamMember } = teamSlice.actions;
