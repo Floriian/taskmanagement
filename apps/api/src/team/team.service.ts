@@ -74,12 +74,7 @@ export class TeamService {
 
     delete members.users;
 
-    return {
-      id: members.id,
-      teamInviteCode: members.teamInviteCode,
-      teamName: members.teamName,
-      users,
-    };
+    return users;
   }
 
   async joinTeam(
