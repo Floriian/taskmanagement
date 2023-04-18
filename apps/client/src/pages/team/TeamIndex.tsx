@@ -16,9 +16,18 @@ export default function TeamIndex() {
   }, []);
 
   return (
-    <Container sx={{ display: 'flex', justifyContent: 'center' }}>
-      <Box>
-        <Typography component="h6" variant="h6">
+    <Container
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      <Box
+        sx={{
+          minWidth: 'calc(100% - 20px)',
+        }}
+      >
+        <Typography component="h6" variant="h6" textAlign="center">
           {team.teamName}
         </Typography>
         <Divider />
