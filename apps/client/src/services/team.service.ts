@@ -1,4 +1,4 @@
-import { TCreateTeam, TTeam } from '../types';
+import { TCreateTeam, TTeam, TUser } from '../types';
 import { authInstance } from './auth.instance';
 
 export const teamService = {
@@ -26,7 +26,7 @@ export const teamService = {
     return data;
   },
   getTeamMembers: async (id: number) => {
-    const { data } = await authInstance.get<TTeam>(`/team/members/${id}`);
+    const { data } = await authInstance.get<TUser[]>(`/team/members/${id}`);
     return data;
   },
   leaveTeam: async () => {

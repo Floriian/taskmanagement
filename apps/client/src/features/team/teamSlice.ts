@@ -34,11 +34,11 @@ export const teamSlice = createSlice({
         });
       }
     },
-    addTeamMember: (state, action: PayloadAction<TUser>) => {
+    addTeamMember: (state, action: PayloadAction<Omit<TUser, 'inTeam'>>) => {
       const user = state.users.find((u) => u.email === action.payload.email);
       if (!user) {
         state.users.push({
-          email: '',
+          email: action.payload.email,
           username: action.payload.username,
           inTeam: true,
         });

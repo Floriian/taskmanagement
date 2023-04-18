@@ -1,24 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { Chat, UserCard } from '../../components';
 import { Box, Divider, Typography, Container } from '@mui/material';
-import { useAppSelector } from '../../hooks/redux-hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { TUser } from '../../types';
 import { teamService } from '../../services/team.service';
+import { addTeamMember } from '../../features/team/teamSlice';
 
 export default function TeamIndex() {
-  const [teamUsers, setTeamUsers] = useState<TUser[]>();
   const team = useAppSelector((state) => state.team);
-
-  // useEffect(() => {
-  //   teamService.getTeamMembers(team.id!).then((res) => setTeamUsers(res.users));
-  // }, []);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    teamService.getTeamMembers(team.id!).then((res) => {
+      res.map((u) => dispatch(addTeamMember(u)));
+    });
+  }, []);
 
   return (
     <Container sx={{ display: 'flex', justifyContent: 'center' }}>
       <Box>
-        <Typography component="h1">{team.teamName}</Typography>
+        <Typography component="h6" variant="h6">
+          {team.teamName}
+        </Typography>
         <Divider />
-        <Typography>Team members</Typography>
+        <Typography component="h6" variant="h6" textAlign="center">
+          Team members
+        </Typography>
         <Box>
           {team.users.map((user) => (
             <UserCard user={user} key={user.username} />
