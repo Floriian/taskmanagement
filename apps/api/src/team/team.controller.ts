@@ -32,11 +32,6 @@ export class TeamController {
     return this.teamService.findOneTeam(+id);
   }
 
-  @Get('members')
-  getUserTeamMembers() {
-    return 'hello';
-  }
-
   @Get('members/:id')
   getTeamMembers(@Param('id') id: string) {
     return this.teamService.getTeamMembers(+id);

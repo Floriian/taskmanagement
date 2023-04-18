@@ -52,10 +52,6 @@ export class TeamService {
     return team;
   }
 
-  async getUserTeamMembers() {
-    return 'hello world';
-  }
-
   async getTeamMembers(id: number) {
     const members = await this.teamRepository.findOne({
       where: {
