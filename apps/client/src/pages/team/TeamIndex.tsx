@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Chat, UserCard } from '../../components';
 import { Box, Divider, Typography, Container } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
