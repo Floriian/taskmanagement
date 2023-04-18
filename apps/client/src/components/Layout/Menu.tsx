@@ -7,11 +7,13 @@ import {
   Toolbar,
   IconButton,
   useMediaQuery,
+  Link,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@emotion/react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { toggleDrawer } from '../../features/ui/ui.slice';
+import { Link as RouterLink } from 'react-router-dom';
 
 export default function Menu() {
   const theme = useTheme();
@@ -58,8 +60,36 @@ export default function Menu() {
           ) : null}
           {matches ? (
             <Box sx={{ display: 'flex' }}>
-              <Button color="inherit">Profile</Button>
-              <Button color="inherit">Logout</Button>
+              <Button color="inherit">
+                <Link
+                  component={RouterLink}
+                  to="/profile"
+                  sx={{
+                    color: 'white ',
+                    '&:hover': {
+                      textDecoration: 'none',
+                    },
+                  }}
+                >
+                  Profile
+                </Link>
+              </Button>
+              <Button color="inherit">
+                <Button color="inherit">
+                  <Link
+                    component={RouterLink}
+                    to="/logout"
+                    sx={{
+                      color: 'white ',
+                      '&:hover': {
+                        textDecoration: 'none',
+                      },
+                    }}
+                  >
+                    Logout
+                  </Link>
+                </Button>
+              </Button>
             </Box>
           ) : null}
         </Box>
