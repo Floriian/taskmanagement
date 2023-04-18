@@ -6,4 +6,9 @@ export const userService = {
     const { data } = await authInstance<TUser>('/user');
     return data;
   },
+
+  findUser: async (username: string) => {
+    const { data } = await authInstance<TUser>(`/user/${username}`);
+    return data;
+  },
 };
