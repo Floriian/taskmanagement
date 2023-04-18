@@ -1,13 +1,27 @@
 import React from 'react';
 import { TUser } from '../../types';
-import { Paper, Divider, Typography, Button } from '@mui/material';
+import { Paper, Divider, Typography, Button, Box } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/redux-hooks';
 
 type Props = {
   user: TUser;
 };
 
 export function UserCard({ user }: Props) {
+  const navigate = useNavigate();
+
+  const { username: reducerUsername } = useAppSelector((state) => state.user);
+
+  const handleClick = (username: string) => {
+    if (username === reducerUsername) {
+      navigate(`/profile`);
+    } else {
+      navigate(`/profile/${username}`);
+    }
+  };
+
   return (
     <Paper
       sx={{
@@ -15,14 +29,21 @@ export function UserCard({ user }: Props) {
         justifyContent: 'space-between',
         alignItems: 'center',
         p: 2,
+        m: 2,
       }}
       elevation={3}
     >
-      <PersonIcon />
-      <Typography component="h6" fontWeight="bold">
-        {user.username}
-      </Typography>
-      <Button variant="contained">Go to profile</Button>
+      <Box
+        sx={{ display: 'flex', justifyContent: 'start', alignItems: 'center' }}
+      >
+        <PersonIcon sx={{ width: 32, height: 32 }} />
+        <Typography component="h6" fontWeight="bold">
+          {user.username}
+        </Typography>
+      </Box>
+      <Button variant="contained" onClick={() => handleClick(user.username)}>
+        Go to profile
+      </Button>
     </Paper>
   );
 }
