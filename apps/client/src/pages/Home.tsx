@@ -74,21 +74,17 @@ export default function Home() {
         });
     }
   }, []);
-
-  // useEffect(() => {
-  //   teamService.getTeamMembers(team.id).then((res) =>
-  //     res.users.map((user) => {
-  //       dispatch(addTeamMember(user));
-  //     }),
-  //   );
-  // });
-
   useEffect(() => {
-    taskService.getTasks().then((res) => {
-      for (let task of res) {
-        dispatch(addTask(task));
-      }
-    });
+    taskService
+      .getTasks()
+      .then((res) => {
+        for (let task of res) {
+          dispatch(addTask(task));
+        }
+      })
+      .catch((e) => {
+        return;
+      });
   }, []);
 
   useEffect(() => {
