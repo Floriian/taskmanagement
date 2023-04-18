@@ -4,6 +4,7 @@ import { Route } from '../types';
 import Home from '../pages/Home';
 import Layout from '../components/Layout/Layout';
 import { teamRouter } from './team.router';
+import { userRouter } from './user.route';
 
 const indexRouter: Route[] = [
   {
@@ -14,6 +15,7 @@ const indexRouter: Route[] = [
         element: <Home />,
       },
       ...teamRouter,
+      ...userRouter,
     ],
   },
 ];
