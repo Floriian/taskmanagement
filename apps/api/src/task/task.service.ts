@@ -1,9 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task, TaskRepository } from './entity/task.entity';
 import { CreateTaskDto } from './dto/CreateTask.dto';
 import { User } from '../user/entity/user.entity';
 import { Team } from '../team/entity/team.entity';
+import { UpdateTaskDto } from './dto/UpdateTask.dto';
 
 @Injectable()
 export class TaskService {
@@ -17,7 +22,6 @@ export class TaskService {
         },
       },
     });
-    if (!tasks.length) throw new NotFoundException('No tasks found.');
     return tasks;
   }
 
@@ -40,7 +44,6 @@ export class TaskService {
       description: dto.description,
       taskTitle: dto.taskTitle,
       updatedAt: '2001-12-21',
-      team,
     });
 
     try {
@@ -50,5 +53,34 @@ export class TaskService {
     }
 
     return task;
+  }
+
+  async updateTask(id: number, teamId: number, dto: UpdateTaskDto) {
+    const task = await this.getTask(id);
+
+    const teamTasks = await this.getTasks(teamId);
+
+    if (!teamTasks) {
+      throw new BadRequestException();
+    }
+
+    const date = new Date().toISOString();
+
+    try {
+      const update = await this.taskRepository.update(task.id, {
+        taskTitle: dto.taskTitle,
+        completed: dto.completed,
+        description: dto.description,
+        deadline: dto.deadline,
+        updatedAt: date,
+      });
+      if (update) {
+        return {
+          success: true,
+        };
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 }

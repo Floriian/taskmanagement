@@ -1,4 +1,12 @@
-import { Controller, Get, UseGuards, Param, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  UseGuards,
+  Param,
+  Post,
+  Body,
+  Patch,
+} from '@nestjs/common';
 import { TaskService } from './task.service';
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { TeamGuard } from '../team/guards/team.guard';
@@ -6,6 +14,7 @@ import { User } from '../user/entity/user.entity';
 import { GetUser } from '../decorators/getuser.decorator';
 import { TeamService } from '../team/team.service';
 import { CreateTaskDto } from './dto/CreateTask.dto';
+import { UpdateTaskDto } from './dto/UpdateTask.dto';
 
 @Controller('task')
 @UseGuards(JwtGuard, TeamGuard)
@@ -30,5 +39,15 @@ export class TaskController {
   async createTask(@GetUser() user: User, @Body() dto: CreateTaskDto) {
     const team = await this.teamService.getUserTeam(user);
     return this.taskService.createTask(user, team, dto);
+  }
+
+  @Patch(':id')
+  async updateTask(
+    @Param('id') id: string,
+    @Body() dto: UpdateTaskDto,
+    @GetUser() user: User,
+  ) {
+    const { id: teamId } = await this.teamService.getUserTeam(user);
+    return this.taskService.updateTask(+id, teamId, dto);
   }
 }
