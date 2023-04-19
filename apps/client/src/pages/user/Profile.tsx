@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Box,
-  Container,
-  Typography,
-  Divider,
-  Button,
-  FormGroup,
-  TextField,
-  Modal,
-} from '@mui/material';
+import { Box, Container, Typography, Divider } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/redux-hooks';
 import { TUser } from '../../types';
@@ -17,7 +8,6 @@ import PersonIcon from '@mui/icons-material/Person';
 export default function Profile() {
   const [fetchedUser, setFetchedUser] = useState<TUser>();
   const [isMatch, setMatch] = useState<boolean>(true);
-  const [open, setOpen] = useState<boolean>(false);
   let { username } = useParams();
 
   const user = useAppSelector((state) => state.user);

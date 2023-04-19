@@ -1,6 +1,6 @@
 import React from 'react';
 import { TUser } from '../../types';
-import { Paper, Divider, Typography, Button, Box } from '@mui/material';
+import { Paper, Typography, Button, Box } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/redux-hooks';
