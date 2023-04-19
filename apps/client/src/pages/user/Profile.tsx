@@ -1,32 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Container, Typography, Divider } from '@mui/material';
+import { Box, Container, Typography, Divider, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/redux-hooks';
 import { TUser } from '../../types';
 import { userService } from '../../services/user.service';
 import PersonIcon from '@mui/icons-material/Person';
+import { useTheme } from '@emotion/react';
 export default function Profile() {
   const [fetchedUser, setFetchedUser] = useState<TUser>();
+  const [searchUser, setSearchUser] = useState<string>('');
   const [isMatch, setMatch] = useState<boolean>(true);
+
+  const theme = useTheme();
+
   let { username } = useParams();
 
   const user = useAppSelector((state) => state.user);
+
   useEffect(() => {
-    const fetchUser = async () => {
-      if (username) {
-        try {
-          const user = await userService.findUser(username);
-          setFetchedUser(user);
-        } catch (e) {
-          console.log(e);
-        }
-      }
-    };
-    if (username != user.username) {
+    if (username != user.username && username) {
       setMatch(false);
-      fetchUser();
+      setSearchUser(username);
     }
   }, [username]);
+
+  useEffect(() => {
+    if (!isMatch) {
+      const fetch = async () => {
+        const response = await userService.findUser(searchUser);
+        setFetchedUser(response);
+      };
+      fetch();
+    }
+  }, [isMatch]);
 
   return (
     <Container
@@ -49,7 +55,7 @@ export default function Profile() {
               sx={{
                 width: 64,
                 height: 64,
-                border: '2px solid aqua',
+                border: (theme) => `2px solid ${theme.palette.primary.main}`,
                 borderRadius: '100%',
               }}
             />
@@ -61,6 +67,11 @@ export default function Profile() {
               {isMatch ? user.username : fetchedUser?.username}
             </Typography>
           </Typography>
+          {!isMatch ? (
+            <Button color="success" variant="contained">
+              Invite to team
+            </Button>
+          ) : null}
         </Box>
       </Box>
     </Container>
