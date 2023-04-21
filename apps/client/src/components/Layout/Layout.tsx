@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { setToken } from '../../features/auth/authSlice';
-import { Container, CssBaseline } from '@mui/material';
+import { CssBaseline } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../app/store/redux-hooks';
+import { setToken } from '../../app/store/features/auth/auth.slice';
 
 export default function Layout() {
   const token = localStorage.getItem('access_token');
 
-  const auth = useAppSelector((state) => state.auth.userToken);
-
+  const auth = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

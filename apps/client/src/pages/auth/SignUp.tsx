@@ -18,6 +18,7 @@ import { authService } from '../../services/auth.service';
 import { useNavigate } from 'react-router-dom';
 
 export function Signup() {
+  //TODO access token check
   const [error, setError] = useState<TNestError>();
 
   const navigate = useNavigate();

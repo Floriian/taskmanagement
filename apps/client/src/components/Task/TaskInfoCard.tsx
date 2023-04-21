@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, CardContent, Typography, Grid } from '@mui/material';
-import { Task } from '../../types';
-import { useAppSelector } from '../../hooks/redux-hooks';
+import { useAppSelector } from '../../app/store/redux-hooks';
 export function TaskInfoCard() {
   const task = useAppSelector((state) => state.team.tasks);
 

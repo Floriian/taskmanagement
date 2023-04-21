@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { AuthFeature } from './auth.feature.type';
-import type { TUser } from '../../types';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: AuthFeature = {
@@ -11,8 +10,8 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setToken: (state, action: PayloadAction<string>) => {
-      state.userToken = action.payload;
+    setToken: (state, { payload }: PayloadAction<string>) => {
+      state.userToken = payload;
     },
   },
 });

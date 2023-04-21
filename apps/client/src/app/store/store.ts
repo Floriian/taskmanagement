@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { authSlice } from './features/auth/authSlice';
-import { userSlice } from './features/user/userSlice';
-import { teamSlice } from './features/team/teamSlice';
+import { authSlice } from './features/auth/auth.slice';
+import { userSlice } from './features/user/user.slice';
+import { teamSlice } from './features/team/team.slice';
 import { uiSlice } from './features/ui/ui.slice';
 
 export const store = configureStore({

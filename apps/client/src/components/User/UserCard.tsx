@@ -3,7 +3,7 @@ import { TUser } from '../../types';
 import { Paper, Typography, Button, Box } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/redux-hooks';
+import { useAppSelector } from '../../app/store/redux-hooks';
 
 type Props = {
   user: TUser;

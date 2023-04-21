@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Box,
   AppBar,
-  Typography,
   Button,
   Toolbar,
   IconButton,
@@ -11,9 +10,9 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@emotion/react';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { toggleDrawer } from '../../features/ui/ui.slice';
 import { Link as RouterLink } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../app/store/redux-hooks';
+import { toggleDrawer } from '../../app/store/features/ui/ui.slice';
 
 export default function Menu() {
   const theme = useTheme();

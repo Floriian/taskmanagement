@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Container, Typography, Divider, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/redux-hooks';
 import { TUser } from '../../types';
 import { userService } from '../../services/user.service';
 import PersonIcon from '@mui/icons-material/Person';
 import { useTheme } from '@emotion/react';
+import { useAppSelector } from '../../app/store/redux-hooks';
 export default function Profile() {
   const [fetchedUser, setFetchedUser] = useState<TUser>();
   const [searchUser, setSearchUser] = useState<string>('');

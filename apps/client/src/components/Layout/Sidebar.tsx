@@ -8,7 +8,6 @@ import {
   ListItemText,
   ListItemIcon,
   Toolbar,
-  Typography,
   useMediaQuery,
 } from '@mui/material';
 import { useTheme } from '@emotion/react';
@@ -17,7 +16,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import GroupsIcon from '@mui/icons-material/Groups';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ChatIcon from '@mui/icons-material/Chat';
-import { useAppSelector } from '../../hooks/redux-hooks';
+import { useAppSelector } from '../../app/store/redux-hooks';
 
 type Props = {
   children: React.ReactNode;

@@ -14,8 +14,8 @@ import { CreateTeamSchema, TCreateTeam, TNestError } from '../../types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { teamService } from '../../services/team.service';
 import { AxiosError } from 'axios';
-import { useAppSelector } from '../../hooks/redux-hooks';
 import { Navigate } from 'react-router-dom';
+import { useAppSelector } from '../../app/store/redux-hooks';
 
 export default function CreateTeam() {
   const [error, setError] = useState<TNestError>();

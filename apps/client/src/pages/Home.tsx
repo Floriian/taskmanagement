@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { userService } from '../services/user.service';
-import { TNestError, TTeam, TUser } from '../types';
+import { TNestError } from '../types';
 import {
   Box,
   Modal,
@@ -9,18 +9,17 @@ import {
   FormGroup,
   Button,
   Container,
-  Skeleton,
   useMediaQuery,
 } from '@mui/material';
 import { Link, TaskInfoCard, TeamInfoCard } from '../components';
 import { useNavigate } from 'react-router-dom';
 import { teamService } from '../services/team.service';
-import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
-import { setUser } from '../features/user/userSlice';
-import { addTask, addTeamMember, setTeam } from '../features/team/teamSlice';
 import { AxiosError } from 'axios';
 import { taskService } from '../services/task.service';
 import { useTheme } from '@emotion/react';
+import { useAppDispatch, useAppSelector } from '../app/store/redux-hooks';
+import { setUser } from '../app/store/features/user/user.slice';
+import { addTask, setTeam } from '../app/store/features/team/team.slice';
 
 export default function Home() {
   const [error, setError] = useState<TNestError>();

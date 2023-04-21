@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { Chat, UserCard } from '../../components';
+import { UserCard } from '../../components';
 import { Box, Divider, Typography, Container } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { TUser } from '../../types';
 import { teamService } from '../../services/team.service';
-import { addTeamMember } from '../../features/team/teamSlice';
+import { useAppDispatch, useAppSelector } from '../../app/store/redux-hooks';
+import { addTeamMember } from '../../app/store/features/team/team.slice';
 
 export default function TeamIndex() {
   const team = useAppSelector((state) => state.team);

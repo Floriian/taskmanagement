@@ -9,8 +9,8 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import { Provider } from 'react-redux';
-import { store } from './store';
 import { ThemeProvider, createTheme } from '@mui/material';
+import { store } from './app/store/store';
 
 const theme = createTheme();
 

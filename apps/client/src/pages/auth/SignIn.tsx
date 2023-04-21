@@ -17,8 +17,8 @@ import { TNestError } from '../../types';
 import { AxiosError } from 'axios';
 import { authService } from '../../services/auth.service';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { authSlice, setToken, setUser } from '../../features/auth/authSlice';
+import { useAppDispatch } from '../../app/store/redux-hooks';
+import { setToken } from '../../app/store/features/auth/auth.slice';
 
 export function SignIn() {
   const [error, setError] = useState<TNestError>();
