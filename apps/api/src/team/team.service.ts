@@ -60,6 +60,8 @@ export class TeamService {
       relations: ['users'],
     });
 
+    if (!members) throw new NotFoundException("This team is doesn't exists.");
+
     let users: Array<Omit<User, 'password'>> = [];
 
     for (let user of members.users) {
@@ -68,7 +70,6 @@ export class TeamService {
         id: user.id,
         team: user.team,
         username: user.username,
-        tasks: user.tasks,
       });
     }
 
