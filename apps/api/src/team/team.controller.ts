@@ -15,6 +15,9 @@ import { CreateTeamDto } from './dto/createam.dto';
 import { User } from '../user/entity/user.entity';
 import { GetUser } from '../decorators/getuser.decorator';
 import { TeamGuard } from './guards/team.guard';
+import { FindOneTeamParamDto } from './dto/FindOneParam.dto';
+import { JoinTeamParamDto } from './dto/JoinTeamParam.dto';
+import { GetTeamMemberParamDto } from './dto/GetTeamMemberParam.dto';
 
 @Controller('team')
 @UseGuards(JwtGuard)
@@ -27,14 +30,14 @@ export class TeamController {
     return this.teamService.getUserTeam(user);
   }
 
-  @Get(':id')
-  findOneTeam(@Param('id') id: string) {
-    return this.teamService.findOneTeam(+id);
+  @Get(':teamId')
+  findOneTeam(@Param() param: FindOneTeamParamDto) {
+    return this.teamService.findOneTeam(+param.teamId);
   }
 
   @Get('members/:id')
-  getTeamMembers(@Param('id') id: string) {
-    return this.teamService.getTeamMembers(+id);
+  getTeamMembers(@Param() param: GetTeamMemberParamDto) {
+    return this.teamService.getTeamMembers(+param.id);
   }
 
   @Post()
@@ -44,11 +47,8 @@ export class TeamController {
 
   @Post('join/:teamInviteCode')
   @HttpCode(HttpStatus.ACCEPTED)
-  joinTeam(
-    @GetUser() user: User,
-    @Param('teamInviteCode') teamInviteCode: string,
-  ) {
-    return this.teamService.joinTeam(user, teamInviteCode);
+  joinTeam(@GetUser() user: User, @Param() param: JoinTeamParamDto) {
+    return this.teamService.joinTeam(user, param.teamInviteCode);
   }
 
   @Delete('leave')
