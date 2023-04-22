@@ -60,7 +60,7 @@ export class TeamService {
       relations: ['users'],
     });
 
-    if (!members) throw new NotFoundException("This team is doesn't exists.");
+    if (!members) throw new NotFoundException("This team doesn't exist.");
 
     let users: Array<Omit<User, 'password'>> = [];
 
