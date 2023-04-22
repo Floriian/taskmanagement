@@ -20,6 +20,12 @@ export class Task {
   @Column()
   description: string;
 
+  @Column({
+    type: 'varchar',
+    nullable: true,
+  })
+  createdBy: string;
+
   @Column()
   createdAt: Date;
 
@@ -35,8 +41,8 @@ export class Task {
   @ManyToOne(() => Team, (team) => team.tasks)
   team: Team;
 
-  @ManyToMany(() => User, (user) => user.tasks)
-  users: User[];
+  // @ManyToMany(() => User, (user) => user.tasks)
+  // users: User[];
 }
 
 export type TaskRepository = Repository<Task>;

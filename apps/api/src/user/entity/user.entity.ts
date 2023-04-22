@@ -29,7 +29,7 @@ export class User {
   @ManyToOne(() => Team, (team) => team.users)
   team: Team;
 
-  @ManyToMany(() => Task, (task) => task.users)
-  tasks: Task[];
+  // @ManyToMany(() => Task, (task) => task.users)
+  // tasks: Task[];
 }
 export type UserRepository = Repository<User>;
