@@ -10,4 +10,5 @@ export type Task = TCreateTask & {
   createdAt: Date;
   updatedAt: Date;
   completed: boolean;
+  createdBy: string;
 };
