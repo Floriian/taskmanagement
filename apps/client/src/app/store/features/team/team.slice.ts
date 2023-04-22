@@ -32,6 +32,7 @@ export const teamSlice = createSlice({
           deadline: payload.deadline,
           description: payload.description,
           updatedAt: payload.updatedAt,
+          createdBy: payload.createdBy,
         });
       }
     },
