@@ -4,6 +4,7 @@ import { JwtGuard } from '../auth/guards/jwt.guard';
 import { GetUser } from '../decorators/getuser.decorator';
 import { User } from './entity/user.entity';
 import { UpdateUserDto } from './dto/updateuser.dto';
+import { FindUserParamDto } from './dto/FindUserParam.dto';
 
 @Controller('user')
 @UseGuards(JwtGuard)
@@ -16,8 +17,8 @@ export class UserController {
   }
 
   @Get(':username')
-  findUser(@Param('username') username: string) {
-    return this.userService.findUser(username);
+  findUser(@Param() param: FindUserParamDto) {
+    return this.userService.findUser(param.username);
   }
 
   @Patch()

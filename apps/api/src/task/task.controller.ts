@@ -15,6 +15,8 @@ import { GetUser } from '../decorators/getuser.decorator';
 import { TeamService } from '../team/team.service';
 import { CreateTaskDto } from './dto/CreateTask.dto';
 import { UpdateTaskDto } from './dto/UpdateTask.dto';
+import { GetOneTaskParamDto } from './dto/GetOneTaskParam.dto';
+import { UpdateTaskParamDto } from './dto/UpdateTaskParam.dto';
 
 @Controller('task')
 @UseGuards(JwtGuard, TeamGuard)
@@ -31,8 +33,8 @@ export class TaskController {
   }
 
   @Get(':id')
-  getTask(@Param('id') id: string) {
-    return this.taskService.getTask(+id);
+  getTask(@Param() param: GetOneTaskParamDto) {
+    return this.taskService.getTask(+param.id);
   }
 
   @Post()
@@ -42,11 +44,11 @@ export class TaskController {
 
   @Patch(':id')
   async updateTask(
-    @Param('id') id: string,
+    @Param() param: UpdateTaskParamDto,
     @Body() dto: UpdateTaskDto,
     @GetUser() user: User,
   ) {
     const { id: teamId } = await this.teamService.getUserTeam(user);
-    return this.taskService.updateTask(+id, teamId, dto);
+    return this.taskService.updateTask(+param.id, teamId, dto);
   }
 }
