@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Container, Typography, Divider, Button } from '@mui/material';
+import {
+  Box,
+  Container,
+  Typography,
+  Divider,
+  Button,
+  Avatar,
+} from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { TUser } from '../../types';
 import { userService } from '../../services/user.service';
 import PersonIcon from '@mui/icons-material/Person';
 import { useTheme } from '@emotion/react';
 import { useAppSelector } from '../../app/store/redux-hooks';
+import { deepPurple } from '@mui/material/colors';
 export default function Profile() {
   const [fetchedUser, setFetchedUser] = useState<TUser>();
   const [searchUser, setSearchUser] = useState<string>('');
@@ -51,14 +59,17 @@ export default function Profile() {
               m: 2,
             }}
           >
-            <PersonIcon
+            {/* <PersonIcon
               sx={{
                 width: 64,
                 height: 64,
                 border: (theme) => `2px solid ${theme.palette.primary.main}`,
                 borderRadius: '100%',
               }}
-            />
+            /> */}
+            <Avatar sx={{ bgcolor: deepPurple[500] }}>
+              {user.username[0]}
+            </Avatar>
           </Box>
           <Typography>
             Username:
