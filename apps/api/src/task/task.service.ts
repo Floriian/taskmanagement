@@ -54,14 +54,10 @@ export class TaskService {
       description: dto.description,
       taskTitle: dto.taskTitle,
       updatedAt: currentDate,
+      createdBy: user.username,
       team: {
         id: userTeam.id,
       },
-      users: [
-        {
-          id: currentUser.id,
-        },
-      ],
     });
 
     try {
