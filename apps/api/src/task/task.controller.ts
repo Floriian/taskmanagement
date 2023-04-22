@@ -36,9 +36,8 @@ export class TaskController {
   }
 
   @Post()
-  async createTask(@GetUser() user: User, @Body() dto: CreateTaskDto) {
-    const team = await this.teamService.getUserTeam(user);
-    return this.taskService.createTask(user, team, dto);
+  createTask(@GetUser() user: User, @Body() dto: CreateTaskDto) {
+    return this.taskService.createTask(user, dto);
   }
 
   @Patch(':id')

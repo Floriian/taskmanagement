@@ -9,7 +9,7 @@ export class CreateTaskDto {
   @IsString()
   description: string;
 
-  // @IsNotEmpty()
-  // @IsDateString()
-  // deadline: Date;
+  @IsNotEmpty()
+  @IsDateString()
+  deadline: Date;
 }

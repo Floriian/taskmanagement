@@ -6,10 +6,15 @@ import { Task } from './entity/task.entity';
 import { Team } from '../team/entity/team.entity';
 import { User } from '../user/entity/user.entity';
 import { TeamModule } from '../team/team.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   controllers: [TaskController],
   providers: [TaskService],
-  imports: [TypeOrmModule.forFeature([Task, Team, User]), TeamModule],
+  imports: [
+    TypeOrmModule.forFeature([Task, Team, User]),
+    TeamModule,
+    UserModule,
+  ],
 })
 export class TaskModule {}

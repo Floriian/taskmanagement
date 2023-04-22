@@ -9,10 +9,16 @@ import { CreateTaskDto } from './dto/CreateTask.dto';
 import { User } from '../user/entity/user.entity';
 import { Team } from '../team/entity/team.entity';
 import { UpdateTaskDto } from './dto/UpdateTask.dto';
+import { TeamService } from '../team/team.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class TaskService {
-  constructor(@InjectRepository(Task) private taskRepository: TaskRepository) {}
+  constructor(
+    @InjectRepository(Task) private taskRepository: TaskRepository,
+    private readonly teamService: TeamService,
+    private readonly userService: UserService,
+  ) {}
 
   async getTasks(id: number) {
     const tasks = await this.taskRepository.find({
@@ -35,24 +41,35 @@ export class TaskService {
     return task;
   }
 
-  //Todo with dates. maybe moment.js
-  async createTask(user: User, team: Team, dto: CreateTaskDto) {
+  async createTask(user: User, dto: CreateTaskDto): Promise<Task> {
+    const currentDate = new Date().toISOString().split('T')[0];
+
+    const currentUser = await this.userService.getUser(user);
+    const userTeam = await this.teamService.getUserTeam(user);
+
     const task = await this.taskRepository.create({
       completed: false,
-      createdAt: '2001-12-21',
-      deadline: '2001-12-21',
+      createdAt: currentDate,
+      deadline: dto.deadline,
       description: dto.description,
       taskTitle: dto.taskTitle,
-      updatedAt: '2001-12-21',
+      updatedAt: currentDate,
+      team: {
+        id: userTeam.id,
+      },
+      users: [
+        {
+          id: currentUser.id,
+        },
+      ],
     });
 
     try {
       await this.taskRepository.save(task);
+      return task;
     } catch (e) {
       console.log(e);
     }
-
-    return task;
   }
 
   async updateTask(id: number, teamId: number, dto: UpdateTaskDto) {
