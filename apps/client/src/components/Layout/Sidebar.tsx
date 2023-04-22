@@ -17,6 +17,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ChatIcon from '@mui/icons-material/Chat';
 import { useAppSelector } from '../../app/store/redux-hooks';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   children: React.ReactNode;
@@ -24,6 +25,7 @@ type Props = {
 const drawerWidth = 240;
 export default function Sidebar({ children }: Props) {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   // @ts-ignore
   const matches = useMediaQuery(theme.breakpoints.up('md'));
@@ -48,7 +50,7 @@ export default function Sidebar({ children }: Props) {
         <Toolbar />
         <Box>
           <List>
-            <ListItem disablePadding>
+            <ListItem disablePadding onClick={() => navigate('/')}>
               <ListItemButton>
                 <ListItemIcon>
                   <HomeIcon />
@@ -56,7 +58,7 @@ export default function Sidebar({ children }: Props) {
                 <ListItemText primary={'Home'} />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding>
+            <ListItem disablePadding onClick={() => navigate('/team')}>
               <ListItemButton>
                 <ListItemIcon>
                   <GroupsIcon />
@@ -64,7 +66,7 @@ export default function Sidebar({ children }: Props) {
                 <ListItemText primary={'My team'} />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding>
+            <ListItem disablePadding onClick={() => navigate('/tasks')}>
               <ListItemButton>
                 <ListItemIcon>
                   <AssignmentIcon />
@@ -72,7 +74,7 @@ export default function Sidebar({ children }: Props) {
                 <ListItemText primary={'Tasks'} />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding>
+            <ListItem disablePadding onClick={() => navigate('/chat')}>
               <ListItemButton>
                 <ListItemIcon>
                   <ChatIcon />

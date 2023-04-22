@@ -10,12 +10,13 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@emotion/react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/store/redux-hooks';
 import { toggleDrawer } from '../../app/store/features/ui/ui.slice';
 
 export default function Menu() {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   // @ts-ignore
   const matches = useMediaQuery(theme.breakpoints.up('md'));
@@ -59,10 +60,13 @@ export default function Menu() {
           ) : null}
           {matches ? (
             <Box sx={{ display: 'flex' }}>
+              <Button color="inherit" onClick={() => navigate('/profile')}>
+                Profile
+              </Button>
               <Button color="inherit">
                 <Link
                   component={RouterLink}
-                  to="/profile"
+                  to="/logout"
                   sx={{
                     color: 'white ',
                     '&:hover': {
@@ -70,24 +74,8 @@ export default function Menu() {
                     },
                   }}
                 >
-                  Profile
+                  Logout
                 </Link>
-              </Button>
-              <Button color="inherit">
-                <Button color="inherit">
-                  <Link
-                    component={RouterLink}
-                    to="/logout"
-                    sx={{
-                      color: 'white ',
-                      '&:hover': {
-                        textDecoration: 'none',
-                      },
-                    }}
-                  >
-                    Logout
-                  </Link>
-                </Button>
               </Button>
             </Box>
           ) : null}
