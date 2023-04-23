@@ -49,7 +49,12 @@ export const teamSlice = createSlice({
         });
       }
     },
+    toggleCompleted: (state, { payload }: PayloadAction<{ id: number }>) => {
+      const taskIndex = state.tasks.findIndex((task) => task.id === payload.id);
+      state.tasks[taskIndex].completed = !state.tasks[taskIndex].completed;
+    },
   },
 });
 
-export const { setTeam, addTask, addTeamMember } = teamSlice.actions;
+export const { setTeam, addTask, addTeamMember, toggleCompleted } =
+  teamSlice.actions;
