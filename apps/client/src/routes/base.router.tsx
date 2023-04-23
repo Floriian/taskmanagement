@@ -6,6 +6,7 @@ import Layout from '../components/Layout/Layout';
 import { teamRouter } from './team.router';
 import { userRouter } from './user.route';
 import { taskRouter } from './task.router';
+import { chatRouter } from './chat.router';
 
 const indexRouter: Route[] = [
   {
@@ -18,6 +19,7 @@ const indexRouter: Route[] = [
       ...teamRouter,
       ...userRouter,
       ...taskRouter,
+      ...chatRouter,
     ],
   },
 ];
