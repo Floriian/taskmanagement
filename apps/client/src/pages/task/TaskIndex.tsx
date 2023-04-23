@@ -9,7 +9,13 @@ import {
   Divider,
   Typography,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 export default function TaskIndex() {
+  const navigate = useNavigate();
+
+  const handleClick = (id: number) => {
+    navigate(`/tasks/${id}`);
+  };
   const tasks = useAppSelector((state) => state.team.tasks);
   return (
     <Box
@@ -53,7 +59,11 @@ export default function TaskIndex() {
               <Divider />
             </Box>
             <Typography>{task.description.slice(0, 50)}...</Typography>
-            <Button variant="contained" sx={{ m: 2 }}>
+            <Button
+              variant="contained"
+              sx={{ m: 2 }}
+              onClick={() => handleClick(task.id)}
+            >
               Go to task
             </Button>
           </CardContent>
