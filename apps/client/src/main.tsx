@@ -11,6 +11,8 @@ import '@fontsource/roboto/700.css';
 import { Provider } from 'react-redux';
 import { ThemeProvider, createTheme } from '@mui/material';
 import { store } from './app/store/store';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const theme = createTheme();
 
@@ -18,7 +20,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <RouterProvider router={router} />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <RouterProvider router={router} />
+        </LocalizationProvider>
       </ThemeProvider>
     </Provider>
   </React.StrictMode>,

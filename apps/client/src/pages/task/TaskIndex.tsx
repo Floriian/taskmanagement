@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useAppSelector } from '../../app/store/redux-hooks';
 import {
   Alert,
@@ -17,23 +17,36 @@ import {
   IconButton,
   FormGroup,
   TextField,
-  TextareaAutosize,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import { red, green } from '@mui/material/colors';
-import { Task } from '../../types';
+import { CreateTaskSchema, TCreateTask, Task } from '../../types';
 import Radio from '@mui/material/Radio';
 import AddIcon from '@mui/icons-material/Add';
-
+import { SubmitHandler, useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs, { Dayjs } from 'dayjs';
 type RadioTypes = 'ALL' | 'COMPLETED' | 'UNCOMPLETED';
+
+const today = dayjs();
 
 export default function TaskIndex() {
   const [tasks, setTasks] = useState<Task[]>();
   const [type, setType] = useState<RadioTypes>('ALL');
-
   const [open, setOpen] = useState<boolean>(false);
+  const [date, setDate] = useState<any>();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm<TCreateTask>({
+    resolver: zodResolver(CreateTaskSchema),
+  });
 
   const navigate = useNavigate();
 
@@ -63,6 +76,11 @@ export default function TaskIndex() {
     setOpen(!open);
   };
 
+  const onFormSubmit: SubmitHandler<TCreateTask> = (data) => {
+    console.log(data);
+    console.log(date);
+  };
+
   const createTaskModal = (
     <Modal open={open} onClose={handleAddTaskModal}>
       <Box
@@ -81,21 +99,46 @@ export default function TaskIndex() {
           Create Task
         </Typography>
         <Divider />
-        <FormGroup sx={{ width: '100%' }}>
-          <TextField
-            fullWidth
-            label="Title"
-            variant="outlined"
-            sx={{ marginBottom: '1rem', marginTop: '1rem' }}
-          />
-          <TextField
-            fullWidth
-            label="Title"
-            variant="outlined"
-            sx={{ marginBottom: '1rem', marginTop: '1rem' }}
-          />
-          <TextareaAutosize />
-        </FormGroup>
+        <Box component="form" onSubmit={handleSubmit(onFormSubmit)}>
+          <FormGroup sx={{ width: '100%' }}>
+            <TextField
+              fullWidth
+              label="Title"
+              variant="outlined"
+              sx={{ marginBottom: '1rem', marginTop: '1rem' }}
+              {...register('taskTitle', { required: true })}
+            />
+            <Controller
+              control={control}
+              name="deadline"
+              render={({ field: { ref, onBlur, name, ...field } }) => (
+                <DatePicker
+                  label={'Deadline'}
+                  value={today}
+                  slotProps={{
+                    textField: {
+                      fullWidth: true,
+                      variant: 'outlined',
+                      error: errors.deadline ? true : false,
+                      helperText: errors.deadline?.message,
+                    },
+                  }}
+                  {...field}
+                />
+              )}
+            />
+
+            <TextField
+              sx={{ marginBottom: '1rem', marginTop: '1rem' }}
+              multiline
+              label="Description"
+              {...register('description', { required: true })}
+            />
+            <Button type="submit" variant="contained" color="success">
+              Create task.
+            </Button>
+          </FormGroup>
+        </Box>
       </Box>
     </Modal>
   );
@@ -136,7 +179,7 @@ export default function TaskIndex() {
           </RadioGroup>
         </FormControl>
       </Box>
-      <Divider></Divider>
+      <Divider />
       {!tasks?.length ? (
         <Alert variant="filled" severity="success">
           No tasks
