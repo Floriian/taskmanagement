@@ -10,8 +10,14 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
+  Modal,
   RadioGroup,
   Typography,
+  Tooltip,
+  IconButton,
+  FormGroup,
+  TextField,
+  TextareaAutosize,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -19,9 +25,15 @@ import CloseIcon from '@mui/icons-material/Close';
 import { red, green } from '@mui/material/colors';
 import { Task } from '../../types';
 import Radio from '@mui/material/Radio';
+import AddIcon from '@mui/icons-material/Add';
+
+type RadioTypes = 'ALL' | 'COMPLETED' | 'UNCOMPLETED';
 
 export default function TaskIndex() {
   const [tasks, setTasks] = useState<Task[]>();
+  const [type, setType] = useState<RadioTypes>('ALL');
+
+  const [open, setOpen] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -36,11 +48,7 @@ export default function TaskIndex() {
     setTasks(userTasks);
   }, [userTasks]);
 
-  const handleRadioClick = ({
-    type,
-  }: {
-    type: 'ALL' | 'COMPLETED' | 'UNCOMPLETED';
-  }) => {
+  useEffect(() => {
     switch (type) {
       case 'ALL':
         return setTasks(userTasks);
@@ -49,37 +57,86 @@ export default function TaskIndex() {
       case 'UNCOMPLETED':
         return setTasks(uncompleted);
     }
+  }, [type]);
+
+  const handleAddTaskModal = () => {
+    setOpen(!open);
   };
+
+  const createTaskModal = (
+    <Modal open={open} onClose={handleAddTaskModal}>
+      <Box
+        sx={{
+          position: 'absolute' as 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 400,
+          bgcolor: 'background.paper',
+          boxShadow: 24,
+          p: 4,
+        }}
+      >
+        <Typography variant="h6" component="h2">
+          Create Task
+        </Typography>
+        <Divider />
+        <FormGroup sx={{ width: '100%' }}>
+          <TextField
+            fullWidth
+            label="Title"
+            variant="outlined"
+            sx={{ marginBottom: '1rem', marginTop: '1rem' }}
+          />
+          <TextField
+            fullWidth
+            label="Title"
+            variant="outlined"
+            sx={{ marginBottom: '1rem', marginTop: '1rem' }}
+          />
+          <TextareaAutosize />
+        </FormGroup>
+      </Box>
+    </Modal>
+  );
 
   return (
     <Box>
+      {open ? createTaskModal : null}
+      <Tooltip title="Add task" onClick={handleAddTaskModal}>
+        <IconButton color="success">
+          <AddIcon />
+        </IconButton>
+      </Tooltip>
       <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
         <FormControl>
           <FormLabel id="radio_buttons">Show</FormLabel>
           <RadioGroup row aria-labelledby="radio_buttons">
             <FormControlLabel
-              value="All"
+              value={'ALL' as RadioTypes}
+              checked={type === 'ALL'}
               control={<Radio />}
               label="All"
-              onClick={() => handleRadioClick({ type: 'ALL' })}
+              onClick={() => setType('ALL')}
             />
             <FormControlLabel
-              value="Completed"
+              value={'COMPLETED' as RadioTypes}
+              checked={type === 'COMPLETED'}
               control={<Radio />}
               label="Completed"
-              onClick={() => handleRadioClick({ type: 'COMPLETED' })}
+              onClick={() => setType('COMPLETED')}
             />
             <FormControlLabel
-              value="Uncompleted"
+              value={'UNCOMPLETED' as RadioTypes}
+              checked={type === 'UNCOMPLETED'}
               control={<Radio />}
               label="Uncompleted"
-              onClick={() => handleRadioClick({ type: 'UNCOMPLETED' })}
+              onClick={() => setType('UNCOMPLETED')}
             />
           </RadioGroup>
         </FormControl>
       </Box>
       <Divider></Divider>
-
       {!tasks?.length ? (
         <Alert variant="filled" severity="success">
           No tasks
