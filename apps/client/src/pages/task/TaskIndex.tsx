@@ -21,9 +21,6 @@ import { Task } from '../../types';
 import Radio from '@mui/material/Radio';
 
 export default function TaskIndex() {
-  const [showType, setShowType] = useState<{
-    type: 'ALL' | 'COMPLETED' | 'UNCOMPLETED';
-  }>();
   const [tasks, setTasks] = useState<Task[]>();
 
   const navigate = useNavigate();
@@ -37,7 +34,7 @@ export default function TaskIndex() {
 
   useEffect(() => {
     setTasks(userTasks);
-  }, [userTasks, tasks]);
+  }, [userTasks]);
 
   const handleRadioClick = ({
     type,
@@ -46,11 +43,11 @@ export default function TaskIndex() {
   }) => {
     switch (type) {
       case 'ALL':
-        setTasks(userTasks);
+        return setTasks(userTasks);
       case 'COMPLETED':
-        setTasks(completed);
+        return setTasks(completed);
       case 'UNCOMPLETED':
-        setTasks(uncompleted);
+        return setTasks(uncompleted);
     }
   };
 
