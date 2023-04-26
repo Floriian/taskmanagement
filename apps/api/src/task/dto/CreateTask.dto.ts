@@ -1,4 +1,10 @@
-import { IsDate, IsDateString, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsDate,
+  IsDateString,
+  IsNotEmpty,
+  IsString,
+  IsISO8601,
+} from 'class-validator';
 
 export class CreateTaskDto {
   @IsString()
@@ -10,6 +16,6 @@ export class CreateTaskDto {
   description: string;
 
   @IsNotEmpty()
-  @IsDateString()
+  @IsISO8601()
   deadline: Date;
 }

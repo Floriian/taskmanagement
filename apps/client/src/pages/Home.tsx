@@ -11,15 +11,13 @@ import {
   Container,
   useMediaQuery,
 } from '@mui/material';
-import { Link, TaskInfoCard, TeamInfoCard } from '../components';
+import { Link } from '../components';
 import { useNavigate } from 'react-router-dom';
-import { teamService } from '../services/team.service';
-import { AxiosError } from 'axios';
-import { taskService } from '../services/task.service';
 import { useTheme } from '@emotion/react';
 import { useAppDispatch, useAppSelector } from '../app/store/redux-hooks';
 import { setUser } from '../app/store/features/user/user.slice';
-import { addTask, setTeam } from '../app/store/features/team/team.slice';
+import { TaskInfoCard } from '../app/store/features/team/task/components/TaskInfoCard';
+import { TeamInfoCard } from '../app/store/features/team/components/TeamInfoCard';
 
 export default function Home() {
   const [error, setError] = useState<TNestError>();
@@ -47,43 +45,6 @@ export default function Home() {
         dispatch(setUser(res));
       })
       .catch(setError);
-  }, []);
-
-  useEffect(() => {
-    if (!user.inTeam) {
-      teamService
-        .getUserTeam()
-        .then((res) => {
-          dispatch(
-            setTeam({
-              teamInviteCode: res.teamInviteCode,
-              teamName: res.teamName,
-              id: res.id,
-              tasks: [],
-              users: [],
-            }),
-          );
-        })
-        .catch((e) => {
-          if (e instanceof AxiosError) {
-            const res: TNestError = e.response?.data;
-            setOpen(true);
-            setError(res);
-          }
-        });
-    }
-  }, []);
-  useEffect(() => {
-    taskService
-      .getTasks()
-      .then((res) => {
-        for (let task of res) {
-          dispatch(addTask(task));
-        }
-      })
-      .catch((e) => {
-        return;
-      });
   }, []);
 
   useEffect(() => {
@@ -166,7 +127,7 @@ export default function Home() {
             flexDirection: matches ? 'row' : 'column',
           }}
         >
-          <TeamInfoCard team={team} />
+          <TeamInfoCard />
           <TaskInfoCard />
         </Container>
       ) : null}

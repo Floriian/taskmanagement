@@ -4,6 +4,7 @@ import type { UiFeature } from './ui.feature.type';
 const initialState: UiFeature = {
   lightMode: 'system',
   showDrawer: false,
+  showNoTeamModal: false,
 };
 
 export const uiSlice = createSlice({
@@ -16,7 +17,11 @@ export const uiSlice = createSlice({
     toggleDrawer: (state) => {
       state.showDrawer = !state.showDrawer;
     },
+    toggleNoTeamModal: (state) => {
+      state.showNoTeamModal = !state.showNoTeamModal;
+    },
   },
 });
 
-export const { setLightMode, toggleDrawer } = uiSlice.actions;
+export const { setLightMode, toggleDrawer, toggleNoTeamModal } =
+  uiSlice.actions;

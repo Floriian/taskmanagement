@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { taskService } from '../../../../../../services/task.service';
 import { DatePicker } from '@mui/x-date-pickers';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { useAppDispatch, useAppSelector } from '../../../../redux-hooks';
 import { addTask } from '../../team.slice';
 
@@ -23,6 +23,7 @@ type Props = {
 };
 
 export function CreateTaskModal({ open, setOpen }: Props) {
+  const [date, setDate] = useState<Dayjs | null>(dayjs);
   const {
     register,
     handleSubmit,
@@ -41,7 +42,11 @@ export function CreateTaskModal({ open, setOpen }: Props) {
 
   const onFormSubmit: SubmitHandler<TCreateTask> = async (data) => {
     try {
-      const response = await taskService.createTask(data);
+      const response = await taskService.createTask({
+        deadline: dayjs(data.deadline),
+        description: data.description,
+        taskTitle: data.taskTitle,
+      });
       dispatch(addTask(response));
     } catch (e) {
       console.log(e);
@@ -78,7 +83,7 @@ export function CreateTaskModal({ open, setOpen }: Props) {
             <Controller
               control={control}
               name="deadline"
-              render={({ field: { value, ...field } }) => (
+              render={({ field: { value, onChange, ...field } }) => (
                 <DatePicker
                   label={'Deadline'}
                   slotProps={{
@@ -89,7 +94,8 @@ export function CreateTaskModal({ open, setOpen }: Props) {
                       helperText: errors.deadline?.message,
                     },
                   }}
-                  value={value ? value : dayjs}
+                  value={date}
+                  onChange={(val) => setDate(val)}
                   {...field}
                 />
               )}
