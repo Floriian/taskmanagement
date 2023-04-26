@@ -1,10 +1,22 @@
 import { z } from 'zod';
-import dayjs, { type Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 export const CreateTaskSchema = z.object({
   taskTitle: z.string().min(1),
-  description: z.string().min(10),
-  deadline: z.instanceof(dayjs as unknown as typeof Dayjs),
+  description: z.string().min(1),
+  deadline: z
+    .custom<Dayjs>((data) => {
+      if (!data) return false;
+      if (data instanceof dayjs) {
+        return data;
+      } else {
+        const date = dayjs(data as Date);
+        return date;
+      }
+    })
+    .refine((d) => d.isAfter(dayjs()), {
+      message: 'Date must be future date',
+    }),
 });
 export type TCreateTask = z.infer<typeof CreateTaskSchema>;
 export type Task = TCreateTask & {
