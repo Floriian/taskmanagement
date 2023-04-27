@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../redux-hooks';
 import { Avatar, Box, Divider, Modal, Typography, Button } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
-import { toggleCompleted } from '../../team.slice';
+import { removeTask, toggleCompleted } from '../../team.slice';
 
 type Props = {
   id: number;
@@ -24,6 +24,10 @@ export function TaskModal({ id, open, setOpen }: Props) {
 
   const handleToggleClick = (id: number) => {
     dispatch(toggleCompleted({ id }));
+  };
+
+  const handleDelete = (id: number) => {
+    dispatch(removeTask({ id }));
   };
 
   return (
@@ -74,7 +78,12 @@ export function TaskModal({ id, open, setOpen }: Props) {
           >
             {task.completed ? 'Mark as uncompleted' : 'Mark as completed'}
           </Button>
-          <Button variant="outlined" color="error" sx={{ m: 2 }}>
+          <Button
+            variant="outlined"
+            color="error"
+            sx={{ m: 2 }}
+            onClick={() => handleDelete(id)}
+          >
             Delete task.
           </Button>
         </Box>
