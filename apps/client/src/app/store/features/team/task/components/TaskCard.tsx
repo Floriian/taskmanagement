@@ -13,10 +13,11 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import { red, green } from '@mui/material/colors';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../../../redux-hooks';
+import { useAppDispatch, useAppSelector } from '../../../../redux-hooks';
 import { toggleCompleted } from '../../team.slice';
 import { Task } from '../../../../../../types';
 import { TaskModal } from './TaskModal';
+import { taskService } from '../../../../../../services/task.service';
 
 type Props = {
   task: Task;
@@ -26,6 +27,7 @@ export function TaskCard({ task }: Props) {
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>();
 
+  const tasks = useAppSelector((state) => state.team.tasks);
   const dispatch = useAppDispatch();
 
   const handleClick = (id: number) => {
@@ -33,8 +35,19 @@ export function TaskCard({ task }: Props) {
     setOpen(!open);
   };
 
-  const handleToggle = (id: number) => {
-    dispatch(toggleCompleted({ id }));
+  const handleToggle = async (id: number) => {
+    const toggledTask = tasks.filter((task) => task.id == id)[0];
+    try {
+      const res = await taskService.toggleTaskCompleted(
+        id,
+        !toggledTask.completed,
+      );
+      if (res.success) {
+        dispatch(toggleCompleted({ id }));
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
