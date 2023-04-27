@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../../../redux-hooks';
 import { Avatar, Box, Divider, Modal, Typography, Button } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
 import { removeTask, toggleCompleted } from '../../team.slice';
+import { taskService } from '../../../../../../services/task.service';
 
 type Props = {
   id: number;
@@ -26,8 +27,18 @@ export function TaskModal({ id, open, setOpen }: Props) {
     dispatch(toggleCompleted({ id }));
   };
 
-  const handleDelete = (id: number) => {
-    dispatch(removeTask({ id }));
+  const handleDelete = async (id: number) => {
+    try {
+      setOpen(false);
+      const { data } = await taskService.deleteTask(id);
+      if (data.success === true) {
+        dispatch(removeTask({ id }));
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setOpen(false);
+    }
   };
 
   return (
