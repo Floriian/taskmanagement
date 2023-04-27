@@ -7,6 +7,8 @@ import {
   Body,
   Patch,
   Delete,
+  HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { JwtGuard } from '../auth/guards/jwt.guard';
@@ -54,6 +56,7 @@ export class TaskController {
     return this.taskService.updateTask(+param.id, teamId, dto);
   }
 
+  @HttpCode(HttpStatus.ACCEPTED)
   @Delete(':id')
   async deleteTask(@Param() param: DeleteTaskParamDto, @GetUser() user: User) {
     return this.taskService.deleteTask(+param.id, user);
