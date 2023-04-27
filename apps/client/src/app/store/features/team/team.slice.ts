@@ -20,6 +20,19 @@ export const teamSlice = createSlice({
       state.teamName = payload.teamName;
       state.users = state.users;
     },
+    addTeamMember: (
+      state,
+      { payload }: PayloadAction<Omit<TUser, 'inTeam'>>,
+    ) => {
+      const user = state.users.find((u) => u.email === payload.email);
+      if (!user) {
+        state.users.push({
+          email: payload.email,
+          username: payload.username,
+          inTeam: true,
+        });
+      }
+    },
     addTask: (state, { payload }: PayloadAction<Task>) => {
       const task = state.tasks.find((t) => t.id === payload.id);
 
@@ -36,25 +49,17 @@ export const teamSlice = createSlice({
         });
       }
     },
-    addTeamMember: (
-      state,
-      { payload }: PayloadAction<Omit<TUser, 'inTeam'>>,
-    ) => {
-      const user = state.users.find((u) => u.email === payload.email);
-      if (!user) {
-        state.users.push({
-          email: payload.email,
-          username: payload.username,
-          inTeam: true,
-        });
-      }
+    removeTask: (state, { payload }: PayloadAction<{ id: number }>) => {
+      state.tasks = state.tasks.filter((t) => t.id != payload.id);
     },
     toggleCompleted: (state, { payload }: PayloadAction<{ id: number }>) => {
-      const taskIndex = state.tasks.findIndex((task) => task.id === payload.id);
+      const taskIndex = state.tasks.findIndex(
+        (task) => task && task.id === payload.id,
+      );
       state.tasks[taskIndex].completed = !state.tasks[taskIndex].completed;
     },
   },
 });
 
-export const { setTeam, addTask, addTeamMember, toggleCompleted } =
+export const { setTeam, addTask, addTeamMember, toggleCompleted, removeTask } =
   teamSlice.actions;
