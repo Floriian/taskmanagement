@@ -1,5 +1,5 @@
 export type UiFeature = {
-  lightMode: 'system' | 'dark' | 'light';
+  lightMode: boolean;
   showDrawer: boolean;
   showNoTeamModal: boolean;
 };

@@ -3,6 +3,10 @@
         "/apps/client/src/types",
         "/apps/client/src/components/Link",
         "/apps/client/src/components/Chat",
-        "/apps/client/src/User"
+        "/apps/client/src/User",
+        "/apps/client/src/themes"
+    ],
+    "exportall.config.relExclusion": [
+        "/apps/client/src/themes"
     ]
 }

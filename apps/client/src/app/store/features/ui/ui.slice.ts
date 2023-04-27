@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import type { UiFeature } from './ui.feature.type';
 
 const initialState: UiFeature = {
-  lightMode: 'system',
+  lightMode: true,
   showDrawer: false,
   showNoTeamModal: false,
 };
@@ -11,8 +11,8 @@ export const uiSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    setLightMode: (state, { payload }: PayloadAction<UiFeature>) => {
-      state.lightMode = payload.lightMode;
+    toggleLightMode: (state) => {
+      state.lightMode = !state.lightMode;
     },
     toggleDrawer: (state) => {
       state.showDrawer = !state.showDrawer;
@@ -23,5 +23,5 @@ export const uiSlice = createSlice({
   },
 });
 
-export const { setLightMode, toggleDrawer, toggleNoTeamModal } =
+export const { toggleLightMode, toggleDrawer, toggleNoTeamModal } =
   uiSlice.actions;
