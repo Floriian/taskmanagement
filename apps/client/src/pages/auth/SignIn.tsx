@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from '../../components';
 import {
   Box,
@@ -16,9 +16,10 @@ import { SignInSchema, TSignIn } from '../../types/auth.type';
 import { TNestError } from '../../types';
 import { AxiosError } from 'axios';
 import { authService } from '../../services/auth.service';
-import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../app/store/redux-hooks';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../app/store/redux-hooks';
 import { setToken } from '../../app/store/features/auth/auth.slice';
+import { userService } from '../../services/user.service';
 
 export function SignIn() {
   const [error, setError] = useState<TNestError>();
@@ -34,7 +35,7 @@ export function SignIn() {
   });
 
   //TODO if has access token, and it is valid, redirect to home page.
-  // const user = useAppSelector((state) => state.auth.userToken);
+  const auth = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
   const onFormSubmit: SubmitHandler<TSignIn> = async (data) => {
@@ -51,6 +52,18 @@ export function SignIn() {
       }
     }
   };
+
+  useEffect(() => {
+    userService
+      .getUser()
+      .then(() => navigate('/'))
+      .catch(() => {
+        dispatch(setToken(''));
+        localStorage.removeItem('access_token');
+      });
+  }, []);
+
+  if (auth.userToken) return <Navigate to="/" />;
 
   return (
     <Container sx={{ overflow: 'hidden' }} maxWidth="xs">
