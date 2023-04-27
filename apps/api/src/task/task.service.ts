@@ -96,4 +96,21 @@ export class TaskService {
       console.log(e);
     }
   }
+  async deleteTask(id: number, user: User): Promise<{ success: boolean }> {
+    const userTeamTasks = await this.getTasks(user.id);
+
+    await this.getTask(id);
+
+    const parseId = userTeamTasks.map((t) => t.id === id);
+    if (!parseId.length) throw new BadRequestException();
+
+    const res = await this.taskRepository
+      .createQueryBuilder()
+      .delete()
+      .from(Task)
+      .where('id = :id', { id })
+      .execute();
+    console.log(res);
+    return { success: res ? res.affected > 0 : res.affected < 0 };
+  }
 }

@@ -6,6 +6,7 @@ import {
   Post,
   Body,
   Patch,
+  Delete,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { JwtGuard } from '../auth/guards/jwt.guard';
@@ -17,6 +18,7 @@ import { CreateTaskDto } from './dto/CreateTask.dto';
 import { UpdateTaskDto } from './dto/UpdateTask.dto';
 import { GetOneTaskParamDto } from './dto/GetOneTaskParam.dto';
 import { UpdateTaskParamDto } from './dto/UpdateTaskParam.dto';
+import { DeleteTaskParamDto } from './dto/DeleteTaskParamDto';
 
 @Controller('task')
 @UseGuards(JwtGuard, TeamGuard)
@@ -50,5 +52,10 @@ export class TaskController {
   ) {
     const { id: teamId } = await this.teamService.getUserTeam(user);
     return this.taskService.updateTask(+param.id, teamId, dto);
+  }
+
+  @Delete(':id')
+  async deleteTask(@Param() param: DeleteTaskParamDto, @GetUser() user: User) {
+    return this.taskService.deleteTask(+param.id, user);
   }
 }
