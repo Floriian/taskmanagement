@@ -17,7 +17,10 @@ export const userSlice = createSlice({
       state.inTeam = payload.inTeam;
       state.username = payload.username;
     },
+    toggleTeam: (state) => {
+      state.inTeam = false;
+    },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, toggleTeam } = userSlice.actions;
