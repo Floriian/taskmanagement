@@ -8,4 +8,7 @@ export const authService = {
   signUp: async (data: TSignUp) => {
     return axios.post<TAuthResponse>('/api/auth/sign-up', data);
   },
+  removeUser: () => {
+    return localStorage.removeItem('access_token');
+  },
 };
