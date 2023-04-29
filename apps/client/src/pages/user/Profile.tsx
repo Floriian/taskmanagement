@@ -12,8 +12,11 @@ import { TUser } from '../../types';
 import { userService } from '../../services/user.service';
 import PersonIcon from '@mui/icons-material/Person';
 import { useTheme } from '@emotion/react';
-import { useAppSelector } from '../../app/store/redux-hooks';
+import { useAppDispatch, useAppSelector } from '../../app/store/redux-hooks';
 import { deepPurple } from '@mui/material/colors';
+import { toggleTeam } from '../../app/store/features/user/user.slice';
+import { removeTeam } from '../../app/store/features/team/team.slice';
+import { teamService } from '../../services/team.service';
 export default function Profile() {
   const [fetchedUser, setFetchedUser] = useState<TUser>();
   const [searchUser, setSearchUser] = useState<string>('');
@@ -24,6 +27,19 @@ export default function Profile() {
   let { username } = useParams();
 
   const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+
+  const handleClick = async () => {
+    try {
+      const res = await teamService.leaveTeam();
+      if (res.success === true) {
+        dispatch(toggleTeam);
+        dispatch(removeTeam);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
     if (username != user.username && username) {
@@ -84,6 +100,11 @@ export default function Profile() {
             </Button>
           ) : null}
         </Box>
+        {user.inTeam ? (
+          <Button onClick={handleClick} variant="contained" color="error">
+            Leave team.
+          </Button>
+        ) : null}
       </Box>
     </Container>
   );

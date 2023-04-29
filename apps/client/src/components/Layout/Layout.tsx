@@ -7,22 +7,14 @@ import { setToken } from '../../app/store/features/auth/auth.slice';
 import { darkTheme, lightTheme } from '../../themes';
 
 export default function Layout() {
-  const token = localStorage.getItem('access_token');
+  const token = useAppSelector((state) => state.auth.userToken);
 
-  const auth = useAppSelector((state) => state.auth);
-  const dispatch = useAppDispatch();
   const ui = useAppSelector((state) => state.ui);
-
-  useEffect(() => {
-    if (token) {
-      dispatch(setToken(token));
-    }
-  }, [token, auth]);
 
   return (
     <ThemeProvider theme={ui.lightMode ? lightTheme : darkTheme}>
       <CssBaseline />
-      {token ? (
+      {token != '' ? (
         <>
           <Sidebar>
             <Outlet />

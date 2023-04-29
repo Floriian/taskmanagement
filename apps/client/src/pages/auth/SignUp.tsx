@@ -35,7 +35,6 @@ export function Signup() {
     try {
       const res = await authService.signUp(data);
       if (res.data.access_token) {
-        localStorage.setItem('access_token', res.data.access_token);
         navigate('/');
       }
     } catch (e) {
