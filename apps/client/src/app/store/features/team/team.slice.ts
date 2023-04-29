@@ -20,6 +20,9 @@ export const teamSlice = createSlice({
       state.teamName = payload.teamName;
       state.users = state.users;
     },
+    removeTeam: (state) => {
+      state = initialState;
+    },
     addTeamMember: (
       state,
       { payload }: PayloadAction<Omit<TUser, 'inTeam'>>,
@@ -61,5 +64,11 @@ export const teamSlice = createSlice({
   },
 });
 
-export const { setTeam, addTask, addTeamMember, toggleCompleted, removeTask } =
-  teamSlice.actions;
+export const {
+  setTeam,
+  addTask,
+  addTeamMember,
+  toggleCompleted,
+  removeTask,
+  removeTeam,
+} = teamSlice.actions;
