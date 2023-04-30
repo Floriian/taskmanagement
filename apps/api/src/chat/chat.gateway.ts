@@ -1,14 +1,33 @@
-import { WebSocketGateway, SubscribeMessage, MessageBody } from '@nestjs/websockets';
+import { UseGuards } from '@nestjs/common';
+import {
+  WebSocketGateway,
+  SubscribeMessage,
+  MessageBody,
+  WebSocketServer,
+} from '@nestjs/websockets';
 import { ChatService } from './chat.service';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
+import { JwtWsGuard } from '../auth/guards/jwtws.guard';
+import { Server } from 'http';
+import { User } from '../user/entity/user.entity';
+import { GetWSUser } from '../decorators/getwsuser.decorator';
 
 @WebSocketGateway()
+@UseGuards(JwtWsGuard)
 export class ChatGateway {
   constructor(private readonly chatService: ChatService) {}
 
+  @WebSocketServer() server: Server;
+
   @SubscribeMessage('createChat')
-  create(@MessageBody() createChatDto: CreateChatDto) {
+  create(
+    @MessageBody() createChatDto: CreateChatDto,
+    @GetWSUser('username') user: User,
+  ) {
+    console.log(user);
+
+    this.server.emit('recMessage', createChatDto);
     return this.chatService.create(createChatDto);
   }
 
