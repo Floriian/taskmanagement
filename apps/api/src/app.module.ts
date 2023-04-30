@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { TeamModule } from './team/team.module';
 import { TaskModule } from './task/task.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { TaskModule } from './task/task.module';
     }),
     TeamModule,
     TaskModule,
+    ChatModule,
   ],
 })
 export class AppModule {}
