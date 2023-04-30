@@ -12,18 +12,18 @@ import {
   Button,
 } from '@mui/material';
 import { taskService } from '../../../../../../services/task.service';
-import { DatePicker } from '@mui/x-date-pickers';
-import dayjs, { Dayjs } from 'dayjs';
 import { useAppDispatch, useAppSelector } from '../../../../redux-hooks';
 import { addTask } from '../../team.slice';
+import dayjs from 'dayjs';
+import { DatePicker } from '@mui/x-date-pickers';
 
+const today = dayjs();
 type Props = {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export function CreateTaskModal({ open, setOpen }: Props) {
-  const [date, setDate] = useState<Dayjs | null>(dayjs);
   const {
     register,
     handleSubmit,
@@ -43,11 +43,12 @@ export function CreateTaskModal({ open, setOpen }: Props) {
   const onFormSubmit: SubmitHandler<TCreateTask> = async (data) => {
     try {
       const response = await taskService.createTask({
-        deadline: dayjs(data.deadline),
+        deadline: data.deadline,
         description: data.description,
         taskTitle: data.taskTitle,
       });
       dispatch(addTask(response));
+      setOpen(false);
     } catch (e) {
       console.log(e);
     }
@@ -81,22 +82,19 @@ export function CreateTaskModal({ open, setOpen }: Props) {
               {...register('taskTitle', { required: true })}
             />
             <Controller
-              control={control}
               name="deadline"
-              render={({ field: { value, onChange, ...field } }) => (
+              control={control}
+              rules={{ required: true }}
+              defaultValue={today}
+              render={({ field }) => (
                 <DatePicker
-                  label={'Deadline'}
+                  {...field}
                   slotProps={{
                     textField: {
-                      fullWidth: true,
-                      variant: 'outlined',
                       error: errors.deadline ? true : false,
                       helperText: errors.deadline?.message,
                     },
                   }}
-                  value={date}
-                  onChange={(val) => setDate(val)}
-                  {...field}
                 />
               )}
             />

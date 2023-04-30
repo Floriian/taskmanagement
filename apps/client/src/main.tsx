@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes/base.router';
@@ -9,9 +9,12 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import { Provider } from 'react-redux';
-import { ThemeProvider, createTheme } from '@mui/material';
 import { store } from './app/store/store';
-import { LocalizationProvider } from '@mui/x-date-pickers';
+
+import {
+  DatePicker as MuiDatePicker,
+  LocalizationProvider,
+} from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

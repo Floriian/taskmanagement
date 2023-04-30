@@ -5,13 +5,9 @@ export const CreateTaskSchema = z.object({
   taskTitle: z.string().min(1),
   description: z.string().min(1),
   deadline: z.custom<Dayjs>((data) => {
-    if (data instanceof dayjs) {
-      return data;
-    } else {
-      const date = dayjs();
-      return date;
-    }
-  }),
+    const date = dayjs(data as unknown as Date);
+    return dayjs().isBefore(date);
+  }, 'Date must be future date.'),
 });
 export type TCreateTask = z.infer<typeof CreateTaskSchema>;
 export type Task = TCreateTask & {
