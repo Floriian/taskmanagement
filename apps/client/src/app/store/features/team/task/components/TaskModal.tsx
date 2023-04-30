@@ -73,9 +73,12 @@ export function TaskModal({ id, open, setOpen }: Props) {
             </Avatar>
             <Typography color="GrayText">{user.username}</Typography>
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', m: 2 }}>
+          <Box>
             <Typography>
               Created at {`${task.createdAt.toString().split('T')[0]}`}
+            </Typography>
+            <Typography>
+              Deadline {`${task.deadline.toString().split('T')[0]}`}
             </Typography>
           </Box>
         </Box>
