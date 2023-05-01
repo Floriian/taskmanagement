@@ -12,9 +12,10 @@ export function TaskInfoCard() {
   const uncompletedTasks = task.filter((t) => t.completed === false);
 
   const deadline = task.filter((t) => {
-    const taskDate = dayjs(t.deadline);
     const currentDate = dayjs();
-    return taskDate.diff(currentDate, 'days');
+    const taskDate = dayjs(t.deadline);
+
+    return taskDate.diff(currentDate, 'day') < 3;
   });
 
   useEffect(() => {

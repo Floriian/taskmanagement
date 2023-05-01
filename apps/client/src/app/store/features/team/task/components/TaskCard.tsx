@@ -11,14 +11,14 @@ import {
 } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
-import { red, green } from '@mui/material/colors';
+import { red, green, orange } from '@mui/material/colors';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../../redux-hooks';
 import { toggleCompleted } from '../../team.slice';
 import { Task } from '../../../../../../types';
 import { TaskModal } from './TaskModal';
 import { taskService } from '../../../../../../services/task.service';
-
+import dayjs from 'dayjs';
 type Props = {
   task: Task;
 };
@@ -29,6 +29,8 @@ export function TaskCard({ task }: Props) {
 
   const tasks = useAppSelector((state) => state.team.tasks);
   const dispatch = useAppDispatch();
+
+  const isDeadline = dayjs(task.deadline).diff(dayjs(), 'day') < 3;
 
   const handleClick = (id: number) => {
     setId(id);
@@ -76,7 +78,14 @@ export function TaskCard({ task }: Props) {
               justifyContent: 'space-between',
             }}
           >
-            <Typography variant="h6">{task.taskTitle}</Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                color: isDeadline ? orange[500] : 'black',
+              }}
+            >
+              {task.taskTitle}
+            </Typography>
             <Tooltip title={task.completed ? 'Completed' : 'Uncompleted'}>
               <IconButton onClick={() => handleToggle(task.id)}>
                 {task.completed ? (
