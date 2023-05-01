@@ -10,33 +10,15 @@ import {
   Typography,
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
-
-type Response = {
-  status: string;
-  code: number;
-  total: number;
-  data: Array<{
-    title: string;
-    author: string;
-    genre: string;
-    content: string;
-  }>;
-};
-
+import { chatService } from '../../services/chat.service';
+import { TChatUser } from '../../types';
 function ChatPage() {
-  const [items, setItems] = useState<Response>();
+  const [messages, setMessages] = useState<TChatUser[]>();
 
   const chatRef = useRef<HTMLDivElement>();
 
   useEffect(() => {
-    const fetch = async () => {
-      const { data } = await axios<Response>(
-        'https://fakerapi.it/api/v1/texts?_quantity=100&_characters=2000',
-      );
-      setItems(data);
-    };
-    fetch();
+    chatService.getChatMessages().then(setMessages).catch(console.log);
   }, []);
 
   useEffect(() => {
@@ -57,7 +39,7 @@ function ChatPage() {
       }}
     >
       <Box ref={chatRef} sx={{ scrollBehavior: 'smooth' }}>
-        {items?.data.map((d, i) => (
+        {messages?.map((m) => (
           <Box
             sx={{
               width: '100%',
@@ -66,10 +48,10 @@ function ChatPage() {
               mb: 4,
               mt: 4,
             }}
-            key={d.author}
+            key={m.id}
           >
-            <Avatar sx={{ mr: 2 }}>{d.author[0]}</Avatar>
-            <Typography>{d.content}</Typography>
+            <Avatar sx={{ mr: 2 }}>{m.user.username[0]}</Avatar>
+            <Typography>{m.message}</Typography>
             <Divider />
           </Box>
         ))}
@@ -90,6 +72,7 @@ function ChatPage() {
             width: 'calc(100% - 20%)',
             m: 2,
           }}
+          placeholder="Type something..."
         />
         <Tooltip title="Send">
           <IconButton color="primary" type="submit">

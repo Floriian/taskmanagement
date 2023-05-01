@@ -62,7 +62,7 @@ export class TeamService {
 
     if (!members) throw new NotFoundException("This team doesn't exist.");
 
-    let users: Array<Omit<User, 'password'>> = [];
+    let users: Array<Omit<User, 'password' | 'messages'>> = [];
 
     for (let user of members.users) {
       users.push({
