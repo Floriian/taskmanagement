@@ -17,7 +17,8 @@ import Radio from '@mui/material/Radio';
 import AddIcon from '@mui/icons-material/Add';
 import { CreateTaskModal } from '../../app/store/features/team/task/components/CreateTaskModal';
 import { TaskCard } from '../../app/store/features/team/task/components/TaskCard';
-type RadioTypes = 'ALL' | 'COMPLETED' | 'UNCOMPLETED';
+import dayjs from 'dayjs';
+type RadioTypes = 'ALL' | 'COMPLETED' | 'UNCOMPLETED' | 'DEADLINE';
 
 export default function TaskIndex() {
   const [tasks, setTasks] = useState<Task[]>();
@@ -27,6 +28,9 @@ export default function TaskIndex() {
   const userTasks = useAppSelector((state) => state.team.tasks);
   const completed = userTasks.filter((task) => task.completed === true);
   const uncompleted = userTasks.filter((task) => task.completed === false);
+  const deadlines = userTasks.filter((task) => {
+    return dayjs(task.deadline).diff(dayjs(), 'day') < 3;
+  });
 
   useEffect(() => {
     setTasks(userTasks);
@@ -40,6 +44,8 @@ export default function TaskIndex() {
         return setTasks(completed);
       case 'UNCOMPLETED':
         return setTasks(uncompleted);
+      case 'DEADLINE':
+        return setTasks(deadlines);
     }
   }, [type]);
 
@@ -75,6 +81,13 @@ export default function TaskIndex() {
               control={<Radio />}
               label="Uncompleted"
               onClick={() => setType('UNCOMPLETED')}
+            />
+            <FormControlLabel
+              value={'DEADLINE' as RadioTypes}
+              checked={type === 'DEADLINE'}
+              control={<Radio />}
+              label="Deadline"
+              onClick={() => setType('DEADLINE')}
             />
           </RadioGroup>
         </FormControl>
